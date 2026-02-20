@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   MapPin, Cloud, Sun, Umbrella, Coffee, Utensils, Moon, 
-  Car, Info, Navigation, CloudRain, Thermometer, Clock, PenLine
+  Car, Info, Navigation, CloudRain, Thermometer, Clock, PenLine, Footprints, Bus
 } from 'lucide-react';
 
 // --- 타입 정의 ---
@@ -23,6 +23,8 @@ interface FareEstimate {
 interface RouteInfo {
   distanceMeters: number;
   durationSec: number;
+  durationWalkingSec?: number;
+  durationPublicTransportSec?: number;
   fareEstimateVND: FareEstimate;
 }
 
@@ -104,7 +106,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "체크인 14:00 / 체크아웃 12:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 6500, durationSec: 900,
+        distanceMeters: 6500, durationSec: 900, durationWalkingSec: 4800, durationPublicTransportSec: 2700,
         fareEstimateVND: { grab4: { min: 110000, max: 140000 }, grab7: { min: 130000, max: 160000 } }
       }
     },
@@ -122,7 +124,7 @@ const MOCK_TRIP_DATA: TripData = {
       breakTime: "없음",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 1200, durationSec: 300,
+        distanceMeters: 1200, durationSec: 300, durationWalkingSec: 900, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 35000, max: 45000 }, grab7: { min: 45000, max: 55000 } }
       }
     },
@@ -139,8 +141,25 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "18:00 - 24:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 2500, durationSec: 400,
+        distanceMeters: 2500, durationSec: 400, durationWalkingSec: 1800, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 40000, max: 55000 }, grab7: { min: 50000, max: 65000 } }
+      }
+    },
+    {
+      id: "DN-D1-005", day: 1, date: "2026-04-03", slot: "night",
+      name: "숙소 복귀 및 휴식",
+      type: "rest", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      durationMin: 0, costVND: { min: 0, max: 0 },
+      why: "하루 일정을 마치고 편안한 휴식.",
+      tips: ["내일 일정을 위해 일찍 취침", "배터리 충전"],
+      rainAlternative: "동일",
+      businessHours: "상시",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 1500, durationSec: 300, durationWalkingSec: 1200, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 30000, max: 40000 }, grab7: { min: 40000, max: 50000 } }
       }
     },
     {
@@ -170,7 +189,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "상시",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 25000, durationSec: 2700,
+        distanceMeters: 25000, durationSec: 2700, durationWalkingSec: undefined, durationPublicTransportSec: 5400,
         fareEstimateVND: { grab4: { min: 350000, max: 400000 }, grab7: { min: 400000, max: 500000 } }
       }
     },
@@ -187,7 +206,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "09:00 - 23:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 3000, durationSec: 600,
+        distanceMeters: 3000, durationSec: 600, durationWalkingSec: 2400, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 50000, max: 70000 }, grab7: { min: 60000, max: 80000 } }
       }
     },
@@ -205,7 +224,7 @@ const MOCK_TRIP_DATA: TripData = {
       breakTime: "없음",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 1000, durationSec: 300,
+        distanceMeters: 1000, durationSec: 300, durationWalkingSec: 720, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 30000, max: 40000 }, grab7: { min: 40000, max: 50000 } }
       }
     },
@@ -222,8 +241,25 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "18:00 - 22:00",
       closedDays: "악천후 시 운행 중단",
       routeFromPrev: {
-        distanceMeters: 1500, durationSec: 300,
+        distanceMeters: 1500, durationSec: 300, durationWalkingSec: 1200, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 35000, max: 45000 }, grab7: { min: 45000, max: 60000 } }
+      }
+    },
+    {
+      id: "DN-D2-006", day: 2, date: "2026-04-04", slot: "night",
+      name: "숙소 복귀 및 휴식",
+      type: "rest", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      durationMin: 0, costVND: { min: 0, max: 0 },
+      why: "하루 일정을 마치고 편안한 휴식.",
+      tips: ["내일 호이안 이동 준비"],
+      rainAlternative: "동일",
+      businessHours: "상시",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 2500, durationSec: 400, durationWalkingSec: 1800, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 40000, max: 55000 }, grab7: { min: 50000, max: 65000 } }
       }
     },
     {
@@ -253,7 +289,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "07:00 - 23:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 15000, durationSec: 1500,
+        distanceMeters: 15000, durationSec: 1500, durationWalkingSec: undefined, durationPublicTransportSec: 3600,
         fareEstimateVND: { grab4: { min: 200000, max: 250000 }, grab7: { min: 250000, max: 300000 } }
       }
     },
@@ -270,7 +306,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "07:00 - 22:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 5000, durationSec: 600,
+        distanceMeters: 5000, durationSec: 600, durationWalkingSec: 3600, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 70000, max: 90000 }, grab7: { min: 90000, max: 110000 } }
       }
     },
@@ -287,8 +323,25 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "17:00 - 23:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 1000, durationSec: 300,
+        distanceMeters: 1000, durationSec: 300, durationWalkingSec: 720, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 20000, max: 30000 }, grab7: { min: 30000, max: 40000 } }
+      }
+    },
+    {
+      id: "DN-D3-005", day: 3, date: "2026-04-05", slot: "night",
+      name: "다낭 숙소 복귀",
+      type: "transport", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      durationMin: 0, costVND: { min: 0, max: 0 },
+      why: "호이안 일정을 마치고 다낭 숙소로 복귀.",
+      tips: ["그랩이 안 잡힐 경우 호이안 셔틀버스 확인", "장거리 이동이므로 화장실 미리 다녀오기"],
+      rainAlternative: "동일",
+      businessHours: "상시",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 25000, durationSec: 2400, durationWalkingSec: undefined, durationPublicTransportSec: 5400,
+        fareEstimateVND: { grab4: { min: 350000, max: 400000 }, grab7: { min: 400000, max: 500000 } }
       }
     },
     {
@@ -318,7 +371,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "06:00 - 19:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 500, durationSec: 300,
+        distanceMeters: 500, durationSec: 300, durationWalkingSec: 360, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 20000, max: 30000 }, grab7: { min: 30000, max: 40000 } }
       }
     },
@@ -335,7 +388,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "08:00 - 22:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 4000, durationSec: 600,
+        distanceMeters: 4000, durationSec: 600, durationWalkingSec: 3000, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 60000, max: 80000 }, grab7: { min: 75000, max: 95000 } }
       }
     },
@@ -352,7 +405,7 @@ const MOCK_TRIP_DATA: TripData = {
       businessHours: "24시간",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 3000, durationSec: 500,
+        distanceMeters: 3000, durationSec: 500, durationWalkingSec: 2400, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 50000, max: 70000 }, grab7: { min: 60000, max: 80000 } }
       }
     }
@@ -496,6 +549,24 @@ const DayTabs = ({ days, selectedDay, onSelect }: { days: DayHeader[], selectedD
   );
 };
 
+const GrabButton = ({ lat, lng }: { lat: number, lng: number }) => {
+  const handleGrabClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const grabUrl = `https://r.grab.com/g/transport?dropoff_lat=${lat}&dropoff_lng=${lng}`;
+    window.location.href = grabUrl;
+  };
+
+  return (
+    <button
+      onClick={handleGrabClick}
+      className="w-full mt-3 bg-[#00B14F] hover:bg-[#009e47] text-white font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors text-sm shadow-sm"
+    >
+      <Car className="w-4 h-4" />
+      Grab 앱으로 호출 (목적지 자동 설정)
+    </button>
+  );
+};
+
 const ItineraryCard: React.FC<{ item: ItineraryItem }> = ({ item }) => {
   const getIcon = (type: ItemType) => {
     switch (type) {
@@ -523,15 +594,50 @@ const ItineraryCard: React.FC<{ item: ItineraryItem }> = ({ item }) => {
 
       {/* 이동 정보 */}
       {item.routeFromPrev && (
-        <div className="mx-4 mb-2 bg-gray-50 rounded p-2 text-xs text-gray-500 border border-gray-100 flex justify-between items-center">
-          <div className="flex items-center gap-1">
-             <Car className="w-3 h-3" />
-             <span>{(item.routeFromPrev.distanceMeters / 1000).toFixed(1)}km (약 {Math.round(item.routeFromPrev.durationSec/60)}분)</span>
+        <div className="mx-4 mb-2 bg-gray-50 rounded p-2 text-xs text-gray-500 border border-gray-100">
+          <div className="flex justify-between items-start mb-2">
+             <div className="flex items-center gap-1 font-medium text-gray-700">
+                <Navigation className="w-3 h-3 text-blue-500" />
+                <span>이동: {(item.routeFromPrev.distanceMeters / 1000).toFixed(1)}km</span>
+             </div>
           </div>
-          <div className="text-right">
-            <div>그랩4인: <span className="font-semibold text-gray-700">{formatVNDRange(item.routeFromPrev.fareEstimateVND.grab4.min, item.routeFromPrev.fareEstimateVND.grab4.max)}</span></div>
-            <div>그랩7인: <span className="font-semibold text-gray-700">{formatVNDRange(item.routeFromPrev.fareEstimateVND.grab7.min, item.routeFromPrev.fareEstimateVND.grab7.max)}</span></div>
+          
+          <div className="grid grid-cols-3 gap-2 mb-2">
+            <div className="flex flex-col items-center p-1.5 bg-white rounded border border-gray-100 shadow-sm">
+              <Car className="w-4 h-4 text-blue-500 mb-1" />
+              <span className="font-bold text-gray-800">{Math.round(item.routeFromPrev.durationSec/60)}분</span>
+              <span className="text-[10px] text-gray-400">택시/그랩</span>
+            </div>
+            
+            <div className="flex flex-col items-center p-1.5 bg-white rounded border border-gray-100 shadow-sm">
+              <Footprints className="w-4 h-4 text-green-500 mb-1" />
+              <span className="font-bold text-gray-800">
+                {item.routeFromPrev.durationWalkingSec ? `${Math.round(item.routeFromPrev.durationWalkingSec/60)}분` : '-'}
+              </span>
+              <span className="text-[10px] text-gray-400">도보</span>
+            </div>
+
+            <div className="flex flex-col items-center p-1.5 bg-white rounded border border-gray-100 shadow-sm">
+              <Bus className="w-4 h-4 text-purple-500 mb-1" />
+              <span className="font-bold text-gray-800">
+                {item.routeFromPrev.durationPublicTransportSec ? `${Math.round(item.routeFromPrev.durationPublicTransportSec/60)}분` : '-'}
+              </span>
+              <span className="text-[10px] text-gray-400">대중교통</span>
+            </div>
           </div>
+
+          <div className="text-right border-t border-gray-100 pt-2 mt-1">
+            <div className="flex justify-between">
+              <span>그랩 4인</span>
+              <span className="font-semibold text-gray-700">{formatVNDRange(item.routeFromPrev.fareEstimateVND.grab4.min, item.routeFromPrev.fareEstimateVND.grab4.max)}</span>
+            </div>
+            <div className="flex justify-between mt-0.5">
+              <span>그랩 7인</span>
+              <span className="font-semibold text-gray-700">{formatVNDRange(item.routeFromPrev.fareEstimateVND.grab7.min, item.routeFromPrev.fareEstimateVND.grab7.max)}</span>
+            </div>
+          </div>
+          
+          <GrabButton lat={item.lat} lng={item.lng} />
         </div>
       )}
 
@@ -783,5 +889,7 @@ const App = () => {
   );
 };
 
-const root = createRoot(document.getElementById('root')!);
+const container = document.getElementById('root')!;
+const root = (container as any)._reactRoot || createRoot(container);
+(container as any)._reactRoot = root;
 root.render(<App />);
