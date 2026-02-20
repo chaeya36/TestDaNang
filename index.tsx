@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   MapPin, Cloud, Sun, Umbrella, Coffee, Utensils, Moon, 
-  Car, Info, Navigation, CloudRain, Thermometer, Clock
+  Car, Info, Navigation, CloudRain, Thermometer, Clock, PenLine
 } from 'lucide-react';
 
 // --- 타입 정의 ---
@@ -480,6 +480,17 @@ const DayTabs = ({ days, selectedDay, onSelect }: { days: DayHeader[], selectedD
             <span className="block text-[10px] font-normal">{d.date.slice(5)}</span>
           </button>
         ))}
+        <button
+          onClick={() => onSelect(999)}
+          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap px-4 border-b-2 ${
+            selectedDay === 999
+              ? "border-yellow-500 text-yellow-600 bg-yellow-50/50"
+              : "border-transparent text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          메모
+          <span className="block text-[10px] font-normal">예약/기록</span>
+        </button>
       </div>
     </div>
   );
@@ -623,25 +634,72 @@ const CurrencyConverter = () => {
         간편 환율 계산기
       </h3>
       <div className="flex items-center gap-2">
-        <div className="flex-1 relative">
+        <div className="flex-1 flex items-center border border-gray-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
           <input
             type="text"
             value={vnd}
             onChange={handleVndChange}
             placeholder="0"
-            className="w-full pl-2 pr-8 py-2 border border-gray-200 rounded-lg text-right focus:outline-none focus:border-blue-500 text-sm"
+            className="w-full pl-3 py-2 text-right focus:outline-none text-sm min-w-0"
           />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">VND</span>
+          <div className="bg-gray-50 px-3 py-2 text-xs text-gray-500 border-l border-gray-200 whitespace-nowrap">
+            VND
+          </div>
         </div>
         <span className="text-gray-400">=</span>
-        <div className="flex-1 relative">
-          <div className="w-full pl-2 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-lg text-right text-gray-700 text-sm">
+        <div className="flex-1 flex items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+          <div className="w-full pl-3 py-2 text-right text-gray-700 text-sm min-w-0 truncate">
             {krw}
           </div>
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">KRW</span>
+          <div className="bg-gray-100 px-3 py-2 text-xs text-gray-500 border-l border-gray-200 whitespace-nowrap">
+            KRW
+          </div>
         </div>
       </div>
       <p className="text-[10px] text-gray-400 mt-2 text-right">* 10,000동 ≈ 550원 기준</p>
+    </div>
+  );
+};
+
+const MemoPad = () => {
+  const [memo, setMemo] = useState("");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("trip_memo");
+    if (saved) setMemo(saved);
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMemo(e.target.value);
+    localStorage.setItem("trip_memo", e.target.value);
+  };
+
+  return (
+    <div className="mx-4 animate-fade-in">
+      <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 shadow-sm relative">
+        <div className="absolute top-0 left-0 w-full h-8 bg-yellow-100 rounded-t-xl border-b border-yellow-200 flex items-center px-4 gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-400"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div className="w-3 h-3 rounded-full bg-green-400"></div>
+        </div>
+        <div className="mt-6">
+            <textarea
+            value={memo}
+            onChange={handleChange}
+            placeholder="여기에 예약 번호, 맛집 리스트, 쇼핑 목록 등을 자유롭게 적어두세요."
+            className="w-full h-[50vh] bg-transparent border-none resize-none focus:ring-0 text-gray-700 placeholder-gray-400 text-base font-medium"
+            style={{ 
+                backgroundImage: 'linear-gradient(transparent, transparent 27px, #e5e7eb 28px)', 
+                backgroundSize: '100% 28px',
+                lineHeight: '28px',
+                paddingTop: '0px'
+            }}
+            />
+        </div>
+      </div>
+      <p className="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-1">
+        <PenLine className="w-3 h-3" /> 작성한 내용은 브라우저에 자동으로 저장됩니다.
+      </p>
     </div>
   );
 };
@@ -652,6 +710,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (selectedDay === 999) return; // 메모 탭일 때는 API 호출 스킵
     setLoading(true);
     fetchItinerary(selectedDay).then(data => {
       setItinerary(data);
@@ -663,16 +722,28 @@ const App = () => {
     MOCK_TRIP_DATA.dayHeaders.find(d => d.day === selectedDay), 
   [selectedDay]);
 
-  if (!currentDayHeader) return <div className="p-10 text-center">여정 데이터를 불러오는 데 실패했습니다.</div>;
+  if (selectedDay !== 999 && !currentDayHeader) return <div className="p-10 text-center">여정 데이터를 불러오는 데 실패했습니다.</div>;
 
   return (
     <div className="min-h-screen pb-10 max-w-md mx-auto bg-gray-50 shadow-2xl overflow-hidden">
-      <WeatherBar 
-        day={selectedDay} 
-        date={currentDayHeader.date} 
-        lat={currentDayHeader.representativeLat} 
-        lng={currentDayHeader.representativeLng} 
-      />
+      {selectedDay === 999 ? (
+        <div className="bg-yellow-500 text-white p-4 shadow-md transition-all">
+          <div className="flex justify-between items-center max-w-md mx-auto">
+            <div>
+              <h2 className="text-lg font-bold">여행 메모장</h2>
+              <p className="text-sm opacity-90">예약 정보와 꿀팁 기록</p>
+            </div>
+            <PenLine className="w-6 h-6" />
+          </div>
+        </div>
+      ) : (
+        currentDayHeader && <WeatherBar 
+          day={selectedDay} 
+          date={currentDayHeader.date} 
+          lat={currentDayHeader.representativeLat} 
+          lng={currentDayHeader.representativeLng} 
+        />
+      )}
       
       <DayTabs 
         days={MOCK_TRIP_DATA.dayHeaders} 
@@ -681,25 +752,31 @@ const App = () => {
       />
 
       <div className="mt-6">
-        <CurrencyConverter />
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-3">
-             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-             <p className="text-gray-400 text-sm">일정을 구성하고 있습니다...</p>
-          </div>
+        {selectedDay === 999 ? (
+          <MemoPad />
         ) : (
-          <div className="animate-fade-in">
-             {itinerary.length > 0 ? itinerary.map((item) => (
-               <ItineraryCard key={item.id} item={item} />
-             )) : (
-               <div className="text-center py-20 text-gray-400 text-sm italic">해당 일자의 세부 일정이 아직 업데이트되지 않았습니다.</div>
-             )}
-             
-             <div className="text-center py-8 text-gray-400 text-xs">
-               <p>{selectedDay}일차 일정 종료</p>
-               <p className="mt-1">카드를 누르면 구글 지도로 길찾기가 실행됩니다</p>
-             </div>
-          </div>
+          <>
+            <CurrencyConverter />
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-20 gap-3">
+                <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-gray-400 text-sm">일정을 구성하고 있습니다...</p>
+              </div>
+            ) : (
+              <div className="animate-fade-in">
+                {itinerary.length > 0 ? itinerary.map((item) => (
+                  <ItineraryCard key={item.id} item={item} />
+                )) : (
+                  <div className="text-center py-20 text-gray-400 text-sm italic">해당 일자의 세부 일정이 아직 업데이트되지 않았습니다.</div>
+                )}
+                
+                <div className="text-center py-8 text-gray-400 text-xs">
+                  <p>{selectedDay}일차 일정 종료</p>
+                  <p className="mt-1">카드를 누르면 구글 지도로 길찾기가 실행됩니다</p>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
