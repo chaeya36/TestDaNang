@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   MapPin, Cloud, Sun, Umbrella, Coffee, Utensils, Moon, 
   Car, Info, Navigation, CloudRain, Thermometer, Clock, PenLine, Footprints, Bus,
-  ChevronRight, ChevronLeft
+  ChevronRight, ChevronLeft, CheckSquare, Trash2
 } from 'lucide-react';
 
 // --- 타입 정의 ---
@@ -260,37 +260,61 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D3-001", day: 3, date: "2026-04-05", slot: "morning",
-      name: "오행산 (마블 마운틴)",
-      type: "activity", lat: 16.0029, lng: 108.2638, mapQuery: "오행산 다낭",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0029,108.2638&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=The+Marble+Mountains+Da+Nang",
-      durationMin: 90, costVND: { min: 40000, max: 100000 },
-      why: "다낭에서 호이안 가는 길에 들르기 좋음. 신비로운 동굴 사원.",
-      tips: ["엘리베이터 편도 이용 추천", "운동화 착용 권장"],
+      name: "링엄사 (영흥사) & 해수관음상",
+      type: "place", lat: 16.1001, lng: 108.2778, mapQuery: "다낭 링엄사",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.1001,108.2778&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Linh+Ung+Pagoda+Da+Nang",
+      durationMin: 90, costVND: { min: 0, max: 0 },
+      why: "부모님 만족도 1위! 67m 초대형 해수관음상과 다낭 바다를 한눈에.",
+      tips: ["복장 단정히 (민소매/짧은바지 자제)", "야생 원숭이 소지품 주의", "그랩 기사님께 대기 요청 추천"],
       rainAlternative: {
-        name: "참 조각 박물관",
+        name: "참 조각 박물관 (실내)",
         type: "activity", lat: 16.0610, lng: 108.2232, mapQuery: "참 조각 박물관",
         placeUrl: "https://www.google.com/maps/search/?api=1&query=Museum+of+Cham+Sculpture",
-        why: "실내에서 참파 왕국의 역사와 유물을 감상할 수 있음.",
-        tips: ["한국어 오디오 가이드 활용", "오행산 대신 방문 추천"],
+        why: "비가 올 땐 실내에서 고대 참파 왕국의 유물을 감상하며 역사 탐방.",
+        tips: ["한국어 오디오 가이드 대여 가능", "에어컨이 나와 쾌적함"],
         businessHours: "07:30 - 17:00",
       },
-      businessHours: "07:00 - 17:30",
+      businessHours: "06:00 - 21:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 8000, durationSec: 900, durationWalkingSec: undefined, durationPublicTransportSec: 1800,
-        fareEstimateVND: { grab4: { min: 120000, max: 150000 }, grab7: { min: 150000, max: 180000 } }
+        distanceMeters: 10000, durationSec: 1200, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 150000, max: 200000 }, grab7: { min: 200000, max: 250000 } }
       }
     },
     {
       id: "DN-D3-002", day: 3, date: "2026-04-05", slot: "afternoon",
-      name: "호이안 올드타운 & 소원배",
+      name: "안방 비치 & 점심 (라플라주)",
+      type: "food", lat: 15.9146, lng: 108.3238, mapQuery: "안방 비치 라플라주",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=15.9146,108.3238&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=La+Plage+Beach+Bar+Hoi+An",
+      durationMin: 120, costVND: { min: 800000, max: 1500000 },
+      why: "호이안으로 이동 후 바다를 보며 여유로운 점심 식사.",
+      tips: ["가리비 구이, 총알 오징어 추천", "식사 후 썬베드에서 휴식"],
+      rainAlternative: {
+        name: "호이안 올드타운 맛집 (모닝글로리)",
+        type: "food", lat: 15.8772, lng: 108.3275, mapQuery: "호이안 모닝글로리",
+        placeUrl: "https://www.google.com/maps/search/?api=1&query=Morning+Glory+Original",
+        why: "비가 오면 해변 대신 올드타운 내 분위기 좋은 실내 식당으로 이동.",
+        tips: ["화이트 로즈, 프라이드 완탄 추천", "예약 권장"],
+        businessHours: "10:00 - 22:00",
+      },
+      businessHours: "08:00 - 22:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 25000, durationSec: 2400, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 350000, max: 400000 }, grab7: { min: 400000, max: 500000 } }
+      }
+    },
+    {
+      id: "DN-D3-003", day: 3, date: "2026-04-05", slot: "evening",
+      name: "호이안 올드타운 & 소원배 & 야시장",
       type: "activity", lat: 15.8801, lng: 108.3380, mapQuery: "호이안 올드타운",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=15.8801,108.3380&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Hoi+An+Ancient+Town",
       durationMin: 240, costVND: { min: 300000, max: 600000 },
-      why: "유네스코 유산. 밤이 되면 등불이 켜지고 소원배를 탈 수 있음.",
-      tips: ["소원배는 해 질 녘(17:30~) 추천", "호객 행위가 많으니 가격 확인 필수"],
+      why: "유네스코 유산. 낮에는 노란 벽 배경 인생샷, 밤에는 등불과 소원배.",
+      tips: ["소원배는 해 질 녘(17:30~) 추천", "호객 행위가 많으니 가격 확인 필수", "야시장에서 기념품 구입"],
       rainAlternative: {
         name: "호이안 메모리즈 쇼 (실내 관람석)",
         type: "activity", lat: 15.8801, lng: 108.3380, mapQuery: "호이안 메모리즈 쇼",
@@ -300,16 +324,15 @@ const MOCK_TRIP_DATA: TripData = {
         businessHours: "20:00 - 21:00 (공연)",
         reservationUrl: "https://www.klook.com/ko/activity/11875-hoi-an-memories-show-da-nang/",
       },
-      reservationUrl: "https://www.klook.com/ko/activity/11875-hoi-an-memories-show-da-nang/", // 예시: 메모리즈쇼나 투어 예약
       businessHours: "07:00 - 22:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 20000, durationSec: 1800, durationWalkingSec: undefined, durationPublicTransportSec: 3600,
-        fareEstimateVND: { grab4: { min: 250000, max: 300000 }, grab7: { min: 300000, max: 350000 } }
+        distanceMeters: 5000, durationSec: 600, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 60000, max: 80000 }, grab7: { min: 80000, max: 100000 } }
       }
     },
     {
-      id: "DN-D3-003", day: 3, date: "2026-04-05", slot: "night",
+      id: "DN-D3-004", day: 3, date: "2026-04-05", slot: "night",
       name: "다낭 숙소 복귀",
       type: "transport", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
@@ -425,6 +448,133 @@ const getSlotLabel = (slot: Slot) => {
 
 // --- 컴포넌트 ---
 
+const Checklist = () => {
+  const defaultItems = [
+    { id: 1, text: "샤워기 필터 (베트남 수질 대비)", checked: false },
+    { id: 2, text: "칫솔, 치약 (호텔 어메니티 확인)", checked: false },
+    { id: 3, text: "상비약 (소화제, 지사제, 두통약, 밴드)", checked: false },
+    { id: 4, text: "여권 (유효기간 6개월 이상)", checked: false },
+    { id: 5, text: "환전 (달러 또는 5만원권)", checked: false },
+    { id: 6, text: "유심 / 이심 / 로밍 신청", checked: false },
+    { id: 7, text: "보조배터리 & 충전기", checked: false },
+    { id: 8, text: "선글라스, 모자, 썬크림 (자외선 강함)", checked: false },
+    { id: 9, text: "수영복, 아쿠아슈즈, 방수팩", checked: false },
+    { id: 10, text: "우산 또는 우비 (우천 대비)", checked: false },
+    { id: 11, text: "물티슈, 휴지", checked: false },
+    { id: 12, text: "손선풍기 (더위 대비)", checked: false },
+    { id: 13, text: "얇은 겉옷 (실내 에어컨/바나힐 쌀쌀함)", checked: false },
+    { id: 14, text: "그랩(Grab) 앱 미리 설치 및 카드 등록", checked: false },
+    { id: 15, text: "여행자 보험 가입", checked: false },
+  ];
+
+  const [items, setItems] = useState(defaultItems);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/checklist')
+      .then(res => res.json())
+      .then(data => {
+        if (data.checklist) {
+          setItems(data.checklist);
+        } else {
+          // If no data on server, save default items
+          saveItems(defaultItems);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load checklist:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const saveItems = (newItems: any[]) => {
+    fetch('/api/checklist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ checklist: newItems }),
+    }).catch(err => console.error("Failed to save checklist:", err));
+  };
+
+  const toggleCheck = (id: number) => {
+    const newItems = items.map((item: any) => 
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setItems(newItems);
+    saveItems(newItems);
+  };
+
+  const resetList = () => {
+    if (window.confirm("체크리스트를 초기화하시겠습니까?")) {
+      setItems(defaultItems);
+      saveItems(defaultItems);
+    }
+  };
+
+  const progress = Math.round((items.filter((i: any) => i.checked).length / items.length) * 100);
+
+  if (loading) {
+    return (
+      <div className="p-4 max-w-md mx-auto pb-24 flex justify-center items-center h-64">
+        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-4 max-w-md mx-auto pb-24">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="p-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
+          <div>
+            <h2 className="text-lg font-bold text-indigo-900 flex items-center gap-2">
+              <CheckSquare className="w-5 h-5 text-indigo-600" />
+              여행 준비물 체크리스트
+            </h2>
+            <p className="text-xs text-indigo-600 mt-1">
+              * 서버에 자동 저장됩니다. (다른 기기 연동 가능)
+            </p>
+          </div>
+          <button 
+            onClick={resetList}
+            className="text-gray-400 hover:text-red-500 transition-colors p-2"
+            title="초기화"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+        
+        <div className="bg-gray-100 h-2 w-full">
+          <div 
+            className="bg-indigo-500 h-full transition-all duration-500 ease-out"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        
+        <div className="divide-y divide-gray-100">
+          {items.map((item: any) => (
+            <div 
+              key={item.id}
+              onClick={() => toggleCheck(item.id)}
+              className={`p-4 flex items-center gap-3 cursor-pointer transition-colors hover:bg-gray-50 ${item.checked ? 'bg-gray-50/50' : ''}`}
+            >
+              <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${
+                item.checked 
+                  ? 'bg-indigo-500 border-indigo-500 text-white' 
+                  : 'border-gray-300 bg-white'
+              }`}>
+                {item.checked && <CheckSquare className="w-3.5 h-3.5" />}
+              </div>
+              <span className={`text-sm flex-1 ${item.checked ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
+                {item.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const WeatherBar = ({ day, date, lat, lng }: { day: number, date: string, lat: number, lng: number }) => {
   const [weather, setWeather] = useState<{ temp: number | null, condition: string } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -483,6 +633,17 @@ const DayTabs = ({ days, selectedDay, onSelect }: { days: DayHeader[], selectedD
             <span className="block text-[10px] font-normal">{d.date.slice(5)}</span>
           </button>
         ))}
+        <button
+          onClick={() => onSelect(1000)}
+          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap px-4 border-b-2 ${
+            selectedDay === 1000
+              ? "border-indigo-500 text-indigo-600 bg-indigo-50/50"
+              : "border-transparent text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          준비물
+          <span className="block text-[10px] font-normal">체크리스트</span>
+        </button>
         <button
           onClick={() => onSelect(999)}
           className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap px-4 border-b-2 ${
@@ -857,16 +1018,46 @@ const CurrencyConverter = () => {
 
 const MemoPad = () => {
   const [memo, setMemo] = useState("");
+  const [loading, setLoading] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("trip_memo");
-    if (saved) setMemo(saved);
+    fetch('/api/memo')
+      .then(res => res.json())
+      .then(data => {
+        setMemo(data.memo);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load memo:", err);
+        setLoading(false);
+      });
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMemo(e.target.value);
-    localStorage.setItem("trip_memo", e.target.value);
+    const newValue = e.target.value;
+    setMemo(newValue);
+    
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      fetch('/api/memo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memo: newValue }),
+      }).catch(err => console.error("Failed to save memo:", err));
+    }, 1000);
   };
+
+  if (loading) {
+    return (
+      <div className="mx-4 animate-fade-in flex justify-center items-center h-64">
+        <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-4 animate-fade-in">
@@ -892,7 +1083,7 @@ const MemoPad = () => {
         </div>
       </div>
       <p className="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-1">
-        <PenLine className="w-3 h-3" /> 작성한 내용은 브라우저에 자동으로 저장됩니다.
+        <PenLine className="w-3 h-3" /> 작성한 내용은 서버에 자동 저장됩니다.
       </p>
     </div>
   );
@@ -904,7 +1095,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (selectedDay === 999) return; // 메모 탭일 때는 API 호출 스킵
+    if (selectedDay === 999 || selectedDay === 1000) return; // 메모/체크리스트 탭일 때는 API 호출 스킵
     setLoading(true);
     fetchItinerary(selectedDay).then(data => {
       setItinerary(data);
@@ -916,7 +1107,7 @@ const App = () => {
     MOCK_TRIP_DATA.dayHeaders.find(d => d.day === selectedDay), 
   [selectedDay]);
 
-  if (selectedDay !== 999 && !currentDayHeader) return <div className="p-10 text-center">여정 데이터를 불러오는 데 실패했습니다.</div>;
+  if (selectedDay !== 999 && selectedDay !== 1000 && !currentDayHeader) return <div className="p-10 text-center">여정 데이터를 불러오는 데 실패했습니다.</div>;
 
   return (
     <div className="min-h-screen pb-10 max-w-md mx-auto bg-gray-50 shadow-2xl overflow-hidden">
@@ -928,6 +1119,16 @@ const App = () => {
               <p className="text-sm opacity-90">예약 정보와 꿀팁 기록</p>
             </div>
             <PenLine className="w-6 h-6" />
+          </div>
+        </div>
+      ) : selectedDay === 1000 ? (
+        <div className="bg-indigo-600 text-white p-4 shadow-md transition-all">
+          <div className="flex justify-between items-center max-w-md mx-auto">
+            <div>
+              <h2 className="text-lg font-bold">여행 준비물</h2>
+              <p className="text-sm opacity-90">빠짐없이 챙기셨나요?</p>
+            </div>
+            <CheckSquare className="w-6 h-6" />
           </div>
         </div>
       ) : (
@@ -948,6 +1149,8 @@ const App = () => {
       <div className="mt-6">
         {selectedDay === 999 ? (
           <MemoPad />
+        ) : selectedDay === 1000 ? (
+          <Checklist />
         ) : (
           <>
             <CurrencyConverter />
