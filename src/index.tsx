@@ -692,7 +692,7 @@ const GrabButton = ({ lat, lng, name }: { lat: number, lng: number, name: string
   );
 };
 
-const ItineraryCard: React.FC<{ item: ItineraryItem }> = ({ item }) => {
+const ItineraryCard: React.FC<{ item: ItineraryItem, showRouteInfo?: boolean }> = ({ item, showRouteInfo = true }) => {
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const getIcon = (type: ItemType) => {
@@ -732,12 +732,12 @@ const ItineraryCard: React.FC<{ item: ItineraryItem }> = ({ item }) => {
   return (
     <div className="mb-6 relative">
       {/* 이전 장소에서의 이동 선 */}
-      {item.routeFromPrev && (
+      {item.routeFromPrev && showRouteInfo && (
         <div className="absolute -top-6 left-6 w-0.5 h-6 bg-gray-300"></div>
       )}
 
       {/* 이동 정보 */}
-      {item.routeFromPrev && (
+      {item.routeFromPrev && showRouteInfo && (
         <div className="mx-4 mb-2 bg-gray-50 rounded p-2 text-xs text-gray-500 border border-gray-100">
           <div className="flex justify-between items-start mb-2">
              <div className="flex items-center gap-1 font-medium text-gray-700">
@@ -1200,8 +1200,8 @@ const App = () => {
               </div>
             ) : (
               <div className="animate-fade-in">
-                {itinerary.length > 0 ? itinerary.map((item) => (
-                  <ItineraryCard key={item.id} item={item} />
+                {itinerary.length > 0 ? itinerary.map((item, index) => (
+                  <ItineraryCard key={item.id} item={item} showRouteInfo={index > 0} />
                 )) : (
                   <div className="text-center py-20 text-gray-400 text-sm italic">해당 일자의 세부 일정이 아직 업데이트되지 않았습니다.</div>
                 )}
