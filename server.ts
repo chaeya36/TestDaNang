@@ -3,6 +3,8 @@ import { createServer as createViteServer } from 'vite';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { WebSocketServer, WebSocket } from 'ws';
+import http from 'http';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.join(__dirname, 'db.json');
@@ -42,6 +44,10 @@ app.post('/api/memo', async (req, res) => {
     data.memo = memo;
     await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2));
     console.log('Saved data:', data);
+    
+    // Broadcast update to all connected clients
+    broadcastMemo(memo);
+    
     res.json({ success: true });
   } catch (e) {
     console.error('Failed to save data:', e);
@@ -70,11 +76,50 @@ app.post('/api/checklist', async (req, res) => {
   }
 });
 
+// Create HTTP server
+const server = http.createServer(app);
+
+// Create WebSocket server
+const wss = new WebSocketServer({ server });
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  
+  ws.on('message', async (message) => {
+    try {
+      const parsed = JSON.parse(message.toString());
+      if (parsed.type === 'UPDATE_MEMO') {
+        const { memo } = parsed;
+        // Save to DB
+        const data = JSON.parse(await fs.readFile(DATA_FILE, 'utf-8'));
+        data.memo = memo;
+        await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2));
+        
+        // Broadcast to others
+        broadcastMemo(memo, ws);
+      }
+    } catch (e) {
+      console.error('WebSocket error:', e);
+    }
+  });
+});
+
+function broadcastMemo(memo: string, excludeWs?: WebSocket) {
+  wss.clients.forEach((client) => {
+    if (client !== excludeWs && client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: 'MEMO_UPDATED', memo }));
+    }
+  });
+}
+
 // Vite middleware
 if (process.env.NODE_ENV !== 'production') {
   const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: 'spa',
+    hmr: {
+        server: server
+    }
   });
   app.use(vite.middlewares);
 } else {
@@ -82,7 +127,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 initDb().then(() => {
-  app.listen(PORT, '0.0.0.0', () => {
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 });

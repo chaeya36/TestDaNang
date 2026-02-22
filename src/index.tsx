@@ -112,16 +112,16 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D1-002", day: 1, date: "2026-04-03", slot: "afternoon",
-      name: "호텔 체크인 (미케비치 인근 추천)",
-      type: "rest", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      name: "호텔 체크인 (노보텔 다낭)",
+      type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
       durationMin: 60, costVND: { min: 0, max: 0 },
-      why: "숙소 추천: 미케비치 지역. 시내와 호이안 이동이 편리하고 휴양 느낌을 낼 수 있습니다.",
+      why: "숙소: 36 Bạch Đằng (노보텔 다낭). 한강 뷰가 멋진 5성급 호텔.",
       tips: ["얼리 체크인 가능 여부 확인", "짐 맡기고 점심 식사 이동"],
       rainAlternative: {
         name: "호텔 로비 라운지 & 스파",
-        type: "rest", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치 호텔",
+        type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
         why: "비가 올 때는 호텔 내 부대시설을 즐기며 휴식.",
         tips: ["호텔 애프터눈 티 이용", "스파 예약 확인"],
         businessHours: "상시",
@@ -183,10 +183,10 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D1-005", day: 1, date: "2026-04-03", slot: "night",
-      name: "숙소 복귀 (미케비치)",
-      type: "rest", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      name: "숙소 복귀 (노보텔 다낭)",
+      type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
       durationMin: 0, costVND: { min: 0, max: 0 },
       why: "일정 마무리 및 휴식.",
       tips: ["내일 바나힐 일정을 위해 컨디션 조절"],
@@ -243,10 +243,10 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D2-003", day: 2, date: "2026-04-04", slot: "night",
-      name: "숙소 복귀",
-      type: "rest", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      name: "숙소 복귀 (노보텔 다낭)",
+      type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
       durationMin: 0, costVND: { min: 0, max: 0 },
       why: "휴식.",
       tips: ["내일 호이안 일정 준비"],
@@ -333,12 +333,12 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D3-004", day: 3, date: "2026-04-05", slot: "night",
-      name: "다낭 숙소 복귀",
-      type: "transport", lat: 16.0601, lng: 108.2458, mapQuery: "미케비치",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0601,108.2458&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Da+Nang",
+      name: "숙소 이동 (84 Dương Tự Minh)",
+      type: "transport", lat: 16.0650, lng: 108.2400, mapQuery: "84 Dương Tự Minh, Sơn Trà, Đà Nẵng",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0650,108.2400&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=84+Dương+Tự+Minh+Sơn+Trà+Đà+Nẵng",
       durationMin: 0, costVND: { min: 0, max: 0 },
-      why: "호이안 야경 감상 후 다낭으로 복귀.",
+      why: "호이안 일정 후 새로운 숙소로 이동 (84 Dương Tự Minh).",
       tips: ["그랩이 잘 안 잡힐 수 있으니 미리 예약하거나 셔틀 확인"],
       rainAlternative: null,
       businessHours: "상시",
@@ -467,28 +467,59 @@ const Checklist = () => {
     { id: 15, text: "여행자 보험 가입", checked: false },
   ];
 
-  const [items, setItems] = useState(() => {
-    const saved = localStorage.getItem('trip_checklist');
-    return saved ? JSON.parse(saved) : defaultItems;
-  });
+  const [items, setItems] = useState(defaultItems);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem('trip_checklist', JSON.stringify(items));
-  }, [items]);
+    fetch('/api/checklist')
+      .then(res => res.json())
+      .then(data => {
+        if (data.checklist) {
+          setItems(data.checklist);
+        } else {
+          // If no data on server, save default items
+          saveItems(defaultItems);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load checklist:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const saveItems = (newItems: any[]) => {
+    fetch('/api/checklist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ checklist: newItems }),
+    }).catch(err => console.error("Failed to save checklist:", err));
+  };
 
   const toggleCheck = (id: number) => {
-    setItems(items.map((item: any) => 
+    const newItems = items.map((item: any) => 
       item.id === id ? { ...item, checked: !item.checked } : item
-    ));
+    );
+    setItems(newItems);
+    saveItems(newItems);
   };
 
   const resetList = () => {
     if (window.confirm("체크리스트를 초기화하시겠습니까?")) {
       setItems(defaultItems);
+      saveItems(defaultItems);
     }
   };
 
   const progress = Math.round((items.filter((i: any) => i.checked).length / items.length) * 100);
+
+  if (loading) {
+    return (
+      <div className="p-4 max-w-md mx-auto pb-24 flex justify-center items-center h-64">
+        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 max-w-md mx-auto pb-24">
@@ -500,7 +531,7 @@ const Checklist = () => {
               여행 준비물 체크리스트
             </h2>
             <p className="text-xs text-indigo-600 mt-1">
-              * 현재 기기에만 저장됩니다.
+              * 서버에 자동 저장됩니다. (다른 기기 연동 가능)
             </p>
           </div>
           <button 
@@ -987,16 +1018,85 @@ const CurrencyConverter = () => {
 
 const MemoPad = () => {
   const [memo, setMemo] = useState("");
+  const [loading, setLoading] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("trip_memo");
-    if (saved) setMemo(saved);
+    // Initial fetch
+    fetch('/api/memo')
+      .then(res => res.json())
+      .then(data => {
+        setMemo(data.memo);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load memo:", err);
+        setLoading(false);
+      });
+
+    // WebSocket connection
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}`;
+    const ws = new WebSocket(wsUrl);
+    wsRef.current = ws;
+
+    ws.onopen = () => {
+      console.log('Connected to WebSocket');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'MEMO_UPDATED') {
+          setMemo(data.memo);
+        }
+      } catch (e) {
+        console.error('Failed to parse WS message:', e);
+      }
+    };
+
+    ws.onclose = () => {
+      console.log('Disconnected from WebSocket');
+    };
+
+    return () => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.close();
+      }
+    };
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMemo(e.target.value);
-    localStorage.setItem("trip_memo", e.target.value);
+    const newValue = e.target.value;
+    setMemo(newValue);
+    
+    // Send update via WebSocket immediately for real-time feel
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'UPDATE_MEMO', memo: newValue }));
+    }
+
+    // Debounce save to DB (backup)
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      fetch('/api/memo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memo: newValue }),
+      }).catch(err => console.error("Failed to save memo:", err));
+    }, 1000);
   };
+
+  if (loading) {
+    return (
+      <div className="mx-4 animate-fade-in flex justify-center items-center h-64">
+        <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-4 animate-fade-in">
@@ -1022,7 +1122,7 @@ const MemoPad = () => {
         </div>
       </div>
       <p className="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-1">
-        <PenLine className="w-3 h-3" /> 작성한 내용은 현재 기기에만 저장됩니다.
+        <PenLine className="w-3 h-3" /> 작성한 내용은 서버에 자동 저장됩니다.
       </p>
     </div>
   );
