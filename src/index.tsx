@@ -467,59 +467,28 @@ const Checklist = () => {
     { id: 15, text: "여행자 보험 가입", checked: false },
   ];
 
-  const [items, setItems] = useState(defaultItems);
-  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState(() => {
+    const saved = localStorage.getItem('trip_checklist');
+    return saved ? JSON.parse(saved) : defaultItems;
+  });
 
   useEffect(() => {
-    fetch('/api/checklist')
-      .then(res => res.json())
-      .then(data => {
-        if (data.checklist) {
-          setItems(data.checklist);
-        } else {
-          // If no data on server, save default items
-          saveItems(defaultItems);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to load checklist:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  const saveItems = (newItems: any[]) => {
-    fetch('/api/checklist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ checklist: newItems }),
-    }).catch(err => console.error("Failed to save checklist:", err));
-  };
+    localStorage.setItem('trip_checklist', JSON.stringify(items));
+  }, [items]);
 
   const toggleCheck = (id: number) => {
-    const newItems = items.map((item: any) => 
+    setItems(items.map((item: any) => 
       item.id === id ? { ...item, checked: !item.checked } : item
-    );
-    setItems(newItems);
-    saveItems(newItems);
+    ));
   };
 
   const resetList = () => {
     if (window.confirm("체크리스트를 초기화하시겠습니까?")) {
       setItems(defaultItems);
-      saveItems(defaultItems);
     }
   };
 
   const progress = Math.round((items.filter((i: any) => i.checked).length / items.length) * 100);
-
-  if (loading) {
-    return (
-      <div className="p-4 max-w-md mx-auto pb-24 flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="p-4 max-w-md mx-auto pb-24">
@@ -531,7 +500,7 @@ const Checklist = () => {
               여행 준비물 체크리스트
             </h2>
             <p className="text-xs text-indigo-600 mt-1">
-              * 서버에 자동 저장됩니다. (다른 기기 연동 가능)
+              * 현재 기기에만 저장됩니다.
             </p>
           </div>
           <button 
@@ -1018,46 +987,16 @@ const CurrencyConverter = () => {
 
 const MemoPad = () => {
   const [memo, setMemo] = useState("");
-  const [loading, setLoading] = useState(true);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    fetch('/api/memo')
-      .then(res => res.json())
-      .then(data => {
-        setMemo(data.memo);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to load memo:", err);
-        setLoading(false);
-      });
+    const saved = localStorage.getItem("trip_memo");
+    if (saved) setMemo(saved);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
-    setMemo(newValue);
-    
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      fetch('/api/memo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ memo: newValue }),
-      }).catch(err => console.error("Failed to save memo:", err));
-    }, 1000);
+    setMemo(e.target.value);
+    localStorage.setItem("trip_memo", e.target.value);
   };
-
-  if (loading) {
-    return (
-      <div className="mx-4 animate-fade-in flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="mx-4 animate-fade-in">
@@ -1083,7 +1022,7 @@ const MemoPad = () => {
         </div>
       </div>
       <p className="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-1">
-        <PenLine className="w-3 h-3" /> 작성한 내용은 서버에 자동 저장됩니다.
+        <PenLine className="w-3 h-3" /> 작성한 내용은 현재 기기에만 저장됩니다.
       </p>
     </div>
   );

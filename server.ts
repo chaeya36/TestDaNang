@@ -24,21 +24,27 @@ const initDb = async () => {
 // API Routes
 app.get('/api/memo', async (req, res) => {
   try {
+    console.log('GET /api/memo');
     const data = JSON.parse(await fs.readFile(DATA_FILE, 'utf-8'));
+    console.log('Read data:', data);
     res.json({ memo: data.memo || "" });
   } catch (e) {
+    console.error('Failed to read data:', e);
     res.status(500).json({ error: 'Failed to read data' });
   }
 });
 
 app.post('/api/memo', async (req, res) => {
   try {
+    console.log('POST /api/memo', req.body);
     const { memo } = req.body;
     const data = JSON.parse(await fs.readFile(DATA_FILE, 'utf-8'));
     data.memo = memo;
     await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2));
+    console.log('Saved data:', data);
     res.json({ success: true });
   } catch (e) {
+    console.error('Failed to save data:', e);
     res.status(500).json({ error: 'Failed to save data' });
   }
 });
