@@ -549,11 +549,25 @@ const DayTabs = ({ days, selectedDay, onSelect }: { days: DayHeader[], selectedD
   );
 };
 
-const GrabButton = ({ lat, lng }: { lat: number, lng: number }) => {
+const GrabButton = ({ lat, lng, name }: { lat: number, lng: number, name: string }) => {
   const handleGrabClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const grabUrl = `https://r.grab.com/g/transport?dropoff_lat=${lat}&dropoff_lng=${lng}`;
-    window.location.href = grabUrl;
+    
+    // grab:// 딥링크 스키마를 사용하여 앱을 직접 실행합니다.
+    // r.grab.com 링크에서 발생하는 'invalid ID' 에러를 방지하고 더 확실하게 앱을 엽니다.
+    const grabAppUrl = `grab://open?screenType=BOOKING&dropOffLatitude=${lat}&dropOffLongitude=${lng}&dropOffName=${encodeURIComponent(name)}`;
+    
+    // 앱 실행 시도
+    window.location.href = grabAppUrl;
+
+    // 앱이 설치되어 있지 않은 경우를 위한 웹 링크 백업 (필요시)
+    setTimeout(() => {
+      if (!document.hidden) {
+        // 앱 실행에 실패한 경우 (브라우저가 여전히 활성 상태인 경우)
+        // r.grab.com 대신 공식 다운로드/랜딩 페이지로 안내하거나 알림을 띄울 수 있습니다.
+        console.log("Grab app might not be installed.");
+      }
+    }, 2500);
   };
 
   return (
@@ -637,7 +651,7 @@ const ItineraryCard: React.FC<{ item: ItineraryItem }> = ({ item }) => {
             </div>
           </div>
           
-          <GrabButton lat={item.lat} lng={item.lng} />
+          <GrabButton lat={item.lat} lng={item.lng} name={item.name} />
         </div>
       )}
 
