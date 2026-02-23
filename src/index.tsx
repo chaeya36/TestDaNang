@@ -467,23 +467,24 @@ const Checklist = () => {
     { id: 15, text: "여행자 보험 가입", checked: false },
   ];
 
-  const [items, setItems] = useState(defaultItems);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('danang_trip_checklist');
-    if (saved) {
-      try {
-        setItems(JSON.parse(saved));
-      } catch (e) {
-        console.error(e);
+  const [items, setItems] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('danang_trip_checklist');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
-    setLoading(false);
-  }, []);
+    return defaultItems;
+  });
 
   const saveItems = (newItems: any[]) => {
-    localStorage.setItem('danang_trip_checklist', JSON.stringify(newItems));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('danang_trip_checklist', JSON.stringify(newItems));
+    }
   };
 
   const toggleCheck = (id: number) => {
@@ -502,14 +503,6 @@ const Checklist = () => {
   };
 
   const progress = Math.round((items.filter((i: any) => i.checked).length / items.length) * 100);
-
-  if (loading) {
-    return (
-      <div className="p-4 max-w-md mx-auto pb-24 flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="p-4 max-w-md mx-auto pb-24">
@@ -1007,30 +1000,20 @@ const CurrencyConverter = () => {
 };
 
 const MemoPad = () => {
-  const [memo, setMemo] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const savedMemo = localStorage.getItem('danang_trip_memo');
-    if (savedMemo) {
-      setMemo(savedMemo);
+  const [memo, setMemo] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('danang_trip_memo') || "";
     }
-    setLoading(false);
-  }, []);
+    return "";
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     setMemo(newValue);
-    localStorage.setItem('danang_trip_memo', newValue);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('danang_trip_memo', newValue);
+    }
   };
-
-  if (loading) {
-    return (
-      <div className="mx-4 animate-fade-in flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="mx-4 animate-fade-in">
