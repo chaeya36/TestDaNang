@@ -471,29 +471,19 @@ const Checklist = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/checklist')
-      .then(res => res.json())
-      .then(data => {
-        if (data.checklist) {
-          setItems(data.checklist);
-        } else {
-          // If no data on server, save default items
-          saveItems(defaultItems);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to load checklist:", err);
-        setLoading(false);
-      });
+    const saved = localStorage.getItem('danang_trip_checklist');
+    if (saved) {
+      try {
+        setItems(JSON.parse(saved));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    setLoading(false);
   }, []);
 
   const saveItems = (newItems: any[]) => {
-    fetch('/api/checklist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ checklist: newItems }),
-    }).catch(err => console.error("Failed to save checklist:", err));
+    localStorage.setItem('danang_trip_checklist', JSON.stringify(newItems));
   };
 
   const toggleCheck = (id: number) => {
@@ -531,7 +521,7 @@ const Checklist = () => {
               여행 준비물 체크리스트
             </h2>
             <p className="text-xs text-indigo-600 mt-1">
-              * 서버에 자동 저장됩니다. (다른 기기 연동 가능)
+              * 현재 기기에 자동 저장됩니다.
             </p>
           </div>
           <button 
@@ -1019,75 +1009,19 @@ const CurrencyConverter = () => {
 const MemoPad = () => {
   const [memo, setMemo] = useState("");
   const [loading, setLoading] = useState(true);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    // Initial fetch
-    fetch('/api/memo')
-      .then(res => res.json())
-      .then(data => {
-        setMemo(data.memo);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to load memo:", err);
-        setLoading(false);
-      });
-
-    // WebSocket connection
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}`;
-    const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
-
-    ws.onopen = () => {
-      console.log('Connected to WebSocket');
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'MEMO_UPDATED') {
-          setMemo(data.memo);
-        }
-      } catch (e) {
-        console.error('Failed to parse WS message:', e);
-      }
-    };
-
-    ws.onclose = () => {
-      console.log('Disconnected from WebSocket');
-    };
-
-    return () => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.close();
-      }
-    };
+    const savedMemo = localStorage.getItem('danang_trip_memo');
+    if (savedMemo) {
+      setMemo(savedMemo);
+    }
+    setLoading(false);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     setMemo(newValue);
-    
-    // Send update via WebSocket immediately for real-time feel
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ type: 'UPDATE_MEMO', memo: newValue }));
-    }
-
-    // Debounce save to DB (backup)
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      fetch('/api/memo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ memo: newValue }),
-      }).catch(err => console.error("Failed to save memo:", err));
-    }, 1000);
+    localStorage.setItem('danang_trip_memo', newValue);
   };
 
   if (loading) {
@@ -1122,7 +1056,7 @@ const MemoPad = () => {
         </div>
       </div>
       <p className="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-1">
-        <PenLine className="w-3 h-3" /> 작성한 내용은 서버에 자동 저장됩니다.
+        <PenLine className="w-3 h-3" /> 작성한 내용은 현재 기기에 자동 저장됩니다.
       </p>
     </div>
   );
