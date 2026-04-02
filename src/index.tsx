@@ -90,10 +90,10 @@ const MOCK_TRIP_DATA: TripData = {
   days: 4,
   nights: 3,
   dayHeaders: [
-    { day: 1, date: "2026-04-03", representativeLat: 16.0544, representativeLng: 108.2022 },
-    { day: 2, date: "2026-04-04", representativeLat: 15.9964, representativeLng: 107.9965 },
-    { day: 3, date: "2026-04-05", representativeLat: 15.8801, representativeLng: 108.3380 },
-    { day: 4, date: "2026-04-06", representativeLat: 16.0667, representativeLng: 108.2241 },
+    { day: 1, date: "2026-04-03", representativeLat: 16.0544, representativeLng: 108.2022 }, // 다낭 공항/시내
+    { day: 2, date: "2026-04-04", representativeLat: 16.0599, representativeLng: 108.2434 }, // 미케비치 주변
+    { day: 3, date: "2026-04-05", representativeLat: 16.0688, representativeLng: 108.2238 }, // 한시장/시내 주변
+    { day: 4, date: "2026-04-06", representativeLat: 16.0667, representativeLng: 108.2241 }, // 다낭 대성당 주변
   ],
   itinerary: [
     {
@@ -102,65 +102,59 @@ const MOCK_TRIP_DATA: TripData = {
       type: "transport", lat: 16.0544, lng: 108.2022, mapQuery: "다낭 국제공항 터미널2",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0544,108.2022&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+International+Airport+Terminal+2",
-      durationMin: 60, costVND: { min: 0, max: 0 },
-      why: "07:55 서울(인천국제공항 1터미널) 출발 -> 10:45 다낭(다낭국제공항 터미널2) 도착. 입국 수속 및 짐 찾기.",
-      tips: ["인천공항 주차는 제2터미널 주차장 이용", "공항 환전소에서 소액 환전", "Grab 호출 시 3번 게이트 건너편 주차장 이용"],
+      durationMin: 45, costVND: { min: 0, max: 0 },
+      why: "10:45 다낭 도착. 입국 수속, 수하물 찾기, 화장실 이용 및 물 구입.",
+      tips: ["입국 수속 후 미용실 픽업 차량 탑승 준비"],
       rainAlternative: null,
       businessHours: "24시간 운영",
       closedDays: "연중무휴",
       routeFromPrev: undefined
     },
     {
-      id: "DN-D1-002", day: 1, date: "2026-04-03", slot: "afternoon",
-      name: "호텔 체크인 (14:00)",
-      type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
-      durationMin: 60, costVND: { min: 0, max: 0 },
-      why: "숙소: 36 Bạch Đằng (노보텔 다낭). 한강 뷰가 멋진 5성급 호텔.",
-      tips: ["얼리 체크인 가능 여부 확인", "짐 맡기고 점심 식사 이동"],
-      rainAlternative: {
-        name: "호텔 로비 라운지 & 스파",
-        type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
-        why: "비가 올 때는 호텔 내 부대시설을 즐기며 휴식.",
-        tips: ["호텔 애프터눈 티 이용", "스파 예약 확인"],
-        businessHours: "상시",
-      },
-      businessHours: "체크인 14:00 / 체크아웃 12:00",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 6500, durationSec: 900, durationWalkingSec: 4800, durationPublicTransportSec: 2700,
-        fareEstimateVND: { grab4: { min: 110000, max: 140000 }, grab7: { min: 130000, max: 160000 } }
-      }
-    },
-    {
-      id: "DN-D1-003-1", day: 1, date: "2026-04-03", slot: "afternoon",
-      name: "핑크성당 (다낭 대성당) (15:00 - 15:30)",
-      type: "activity", lat: 16.0667, lng: 108.2241, mapQuery: "다낭 대성당",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0667,108.2241&travelmode=walking",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+Cathedral",
+      id: "DN-D1-001-2", day: 1, date: "2026-04-03", slot: "morning",
+      name: "미용실 픽업 차량 탑승 (11:30)",
+      type: "transport", lat: 16.0544, lng: 108.2022, mapQuery: "다낭 국제공항 터미널2",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0544,108.2022&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+International+Airport+Terminal+2",
       durationMin: 30, costVND: { min: 0, max: 0 },
-      why: "프랑스 식민지 시대에 지어진 분홍색 성당으로 다낭의 대표적인 포토존입니다.",
-      tips: ["미사 시간에는 내부 입장이 제한될 수 있습니다.", "성당 앞에서 인증샷 필수"],
+      why: "공항에서 바로 미용실 픽업 차량을 타고 이동합니다.",
+      tips: ["기사님과 미팅 포인트 사전 확인"],
       rainAlternative: null,
-      businessHours: "06:00 - 16:30 (일요일 11:30 - 13:30)",
+      businessHours: "상시",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 3000, durationSec: 600, durationWalkingSec: 2400, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 50000, max: 70000 }, grab7: { min: 60000, max: 80000 } }
+        distanceMeters: 0, durationSec: 0, durationWalkingSec: 0, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
       }
     },
     {
-      id: "DN-D1-003-2", day: 1, date: "2026-04-03", slot: "afternoon",
-      name: "콩카페 (코코넛 커피) (15:30 - 16:30)",
-      type: "food", lat: 16.0678, lng: 108.2245, mapQuery: "콩카페 1호점",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0678,108.2245&travelmode=walking",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Cong+Caphe+Da+Nang",
+      id: "DN-D1-002", day: 1, date: "2026-04-03", slot: "afternoon",
+      name: "점심 식사 (미꽝꼬사우) (12:00 - 13:00)",
+      type: "food", lat: 16.0650, lng: 108.2350, mapQuery: "397 Đ. Trần Hưng Đạo, Đà Nẵng",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0650,108.2350&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Mi+Quang+Co+Sau+Da+Nang",
       durationMin: 60, costVND: { min: 100000, max: 200000 },
-      why: "베트남 힙한 감성의 카페에서 시원한 코코넛 스무디 커피 한 잔의 여유.",
-      tips: ["사람이 많으면 2호점 이용 가능", "부모님 휴식 시간"],
+      why: "다낭 도착 후 첫 식사. 베트남 중부 대표 면 요리인 미꽝을 맛봅니다.",
+      tips: ["주소: 397 Đ. Trần Hưng Đạo, An Hải Trung, Sơn Trà"],
       rainAlternative: null,
-      businessHours: "07:00 - 23:30",
+      businessHours: "06:00 - 21:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 5000, durationSec: 900, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D1-003", day: 1, date: "2026-04-03", slot: "afternoon",
+      name: "BOSS 보스 이발소 (13:10 - 14:10)",
+      type: "activity", lat: 16.0640, lng: 108.2340, mapQuery: "353 Đ. Trần Hưng Đạo, Đà Nẵng",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0640,108.2340&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Boss+Barbershop+Da+Nang",
+      durationMin: 60, costVND: { min: 300000, max: 500000 },
+      why: "베트남식 이발소 체험. 샴푸, 마사지, 귀청소 등 풀케어 서비스로 비행 피로를 풉니다.",
+      tips: ["주소: 353 Đ. Trần Hưng Đạo, An Hải Trung, Sơn Trà", "점심 식사 후 도보 이동 가능"],
+      rainAlternative: null,
+      businessHours: "09:00 - 22:00",
       closedDays: "연중무휴",
       routeFromPrev: {
         distanceMeters: 200, durationSec: 180, durationWalkingSec: 180, durationPublicTransportSec: undefined,
@@ -168,90 +162,103 @@ const MOCK_TRIP_DATA: TripData = {
       }
     },
     {
-      id: "DN-D1-003-3", day: 1, date: "2026-04-03", slot: "afternoon",
-      name: "한시장 쇼핑 (16:30 - 17:30)",
-      type: "activity", lat: 16.0688, lng: 108.2238, mapQuery: "한시장",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0688,108.2238&travelmode=walking",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Han+Market+Da+Nang",
-      durationMin: 60, costVND: { min: 500000, max: 2000000 },
-      why: "다낭 최대 재래시장. 1층은 건어물/과일, 2층은 아오자이/의류/신발 등을 판매합니다.",
-      tips: ["1층 냄새가 심할 수 있으니 마스크 준비", "흥정 필수 (부르는 값의 50%부터 시작)", "망고젤리, 라탄백 추천"],
-      rainAlternative: {
-        name: "한시장 (실내)",
-        type: "activity", lat: 16.0688, lng: 108.2238, mapQuery: "한시장",
-        placeUrl: "https://www.google.com/maps/search/?api=1&query=Han+Market+Da+Nang",
-        why: "실내 시장이라 비를 피하며 쇼핑 가능.",
-        tips: ["미끄러움 주의"],
-        businessHours: "06:00 - 19:00",
-      },
-      businessHours: "06:00 - 19:00",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 150, durationSec: 120, durationWalkingSec: 120, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
-      }
-    },
-    {
-      id: "DN-D1-004-1", day: 1, date: "2026-04-03", slot: "evening",
-      name: "용다리 야경 (18:30 - 19:00)",
-      type: "activity", lat: 16.0614, lng: 108.2359, mapQuery: "용다리",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0614,108.2359&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Dragon+Bridge+Da+Nang",
-      durationMin: 30, costVND: { min: 0, max: 0 },
-      why: "다낭의 랜드마크 용다리 야경 감상 및 산책.",
-      tips: ["금요일이라 불쇼는 없지만 화려한 조명의 야경 감상", "강변 산책로가 잘 되어 있어 걷기 좋음"],
-      rainAlternative: {
-        name: "DHC 마리나 카페 (사랑의 부두)",
-        type: "food", lat: 16.0614, lng: 108.2359, mapQuery: "DHC Marina",
-        placeUrl: "https://www.google.com/maps/search/?api=1&query=DHC+Marina+Da+Nang",
-        why: "용다리가 보이는 실내 카페에서 운치 있게 야경 감상.",
-        tips: ["창가 자리 선점 필수", "따뜻한 음료 추천"],
-        businessHours: "07:00 - 22:30",
-      },
-      businessHours: "상시",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 1500, durationSec: 300, durationWalkingSec: 1200, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 35000, max: 45000 }, grab7: { min: 45000, max: 60000 } }
-      }
-    },
-    {
-      id: "DN-D1-004-2", day: 1, date: "2026-04-03", slot: "evening",
-      name: "선짜 야시장 (19:00 - 20:30)",
-      type: "activity", lat: 16.0618, lng: 108.2375, mapQuery: "선짜 야시장",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0618,108.2375&travelmode=walking",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Son+Tra+Night+Market",
-      durationMin: 90, costVND: { min: 200000, max: 400000 },
-      why: "용다리 머리 쪽에 위치한 야시장. 다양한 길거리 음식과 기념품 구경.",
-      tips: ["야시장 해산물 가격 흥정 필수", "소매치기 주의", "부모님 체력 고려하여 중간중간 휴식"],
+      id: "DN-D1-004", day: 1, date: "2026-04-03", slot: "afternoon",
+      name: "노보텔 다낭 체크인 & 휴식 (14:30 - 15:30)",
+      type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
+      durationMin: 60, costVND: { min: 0, max: 0 },
+      why: "호텔 체크인 후 짐을 정리하고 잠깐 휴식을 취합니다.",
+      tips: ["이발소에서 제공하는 드랍 서비스 이용 가능 여부 확인"],
       rainAlternative: null,
+      businessHours: "체크인 14:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 3000, durationSec: 600, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 50000, max: 70000 }, grab7: { min: 60000, max: 80000 } }
+      }
+    },
+    {
+      id: "DN-D1-005", day: 1, date: "2026-04-03", slot: "afternoon",
+      name: "링엄사 (영흥사) (16:00 - 17:30)",
+      type: "activity", lat: 16.1009, lng: 108.2778, mapQuery: "Linh Ung Pagoda",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.1009,108.2778&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Linh+Ung+Pagoda+Da+Nang",
+      durationMin: 90, costVND: { min: 0, max: 0 },
+      why: "거대한 해수관음상과 다낭 바다/도시 전망을 감상할 수 있는 곳. 부모님도 걷기 편한 가벼운 산책 코스입니다.",
+      tips: ["원숭이 주의 (소지품 조심)", "그랩 기사님과 왕복(대기) 흥정 추천"],
+      rainAlternative: {
+        name: "다낭 시내 마사지",
+        type: "rest", lat: 16.0600, lng: 108.2300, mapQuery: "다낭 마사지",
+        why: "비가 많이 올 경우 야외 산책 대신 실내 마사지로 대체.",
+        tips: ["호텔 근처 마사지샵 이용"],
+      },
+      businessHours: "06:00 - 21:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 10000, durationSec: 1200, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 120000, max: 150000 }, grab7: { min: 150000, max: 180000 } }
+      }
+    },
+    {
+      id: "DN-D1-006", day: 1, date: "2026-04-03", slot: "evening",
+      name: "선짜 야시장 & 저녁 식사 (18:00 - 19:10)",
+      type: "activity", lat: 16.0618, lng: 108.2375, mapQuery: "선짜 야시장",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0618,108.2375&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Son+Tra+Night+Market",
+      durationMin: 70, costVND: { min: 200000, max: 400000 },
+      why: "링엄사에서 내려오는 길에 들르기 좋으며, 이후 한강 유람선 탑승장과 가깝습니다. 간식 및 기념품 구경으로 저녁을 대체합니다.",
+      tips: ["해산물 구이, 반짱느엉 등 길거리 음식 체험", "가격 흥정 필수"],
+      rainAlternative: {
+        name: "용다리 근처 실내 식당",
+        type: "food", lat: 16.0614, lng: 108.2359, mapQuery: "다낭 용다리 맛집",
+        why: "비가 오면 야시장 대신 근처 실내 식당에서 저녁 식사.",
+        tips: ["유람선 선착장과 가까운 곳 선택"],
+      },
       businessHours: "18:00 - 24:00",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 300, durationSec: 240, durationWalkingSec: 240, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+        distanceMeters: 9000, durationSec: 1200, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 100000, max: 130000 }, grab7: { min: 130000, max: 160000 } }
       }
     },
     {
-      id: "DN-D1-005", day: 1, date: "2026-04-03", slot: "night",
-      name: "숙소 복귀 (20:30)",
+      id: "DN-D1-007", day: 1, date: "2026-04-03", slot: "evening",
+      name: "한강 유람선 야경 감상 (19:30 - 20:30)",
+      type: "activity", lat: 16.0650, lng: 108.2250, mapQuery: "다낭 한강 유람선 선착장",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0650,108.2250&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+Han+River+Cruise",
+      durationMin: 60, costVND: { min: 150000, max: 250000 },
+      why: "배 위에서 용다리와 한강의 아름다운 야경을 편안하게 감상합니다. 금요일이라 용다리 불쇼는 없지만, 야경 자체로 만족도가 높습니다.",
+      tips: ["선짜 야시장에서 도보 또는 그랩으로 이동", "미리 티켓 예매 권장"],
+      rainAlternative: null,
+      businessHours: "18:00 - 22:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 1500, durationSec: 300, durationWalkingSec: 1200, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 30000, max: 40000 }, grab7: { min: 40000, max: 50000 } }
+      }
+    },
+    {
+      id: "DN-D1-008", day: 1, date: "2026-04-03", slot: "night",
+      name: "숙소 복귀 및 휴식 (21:00)",
       type: "rest", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
       durationMin: 0, costVND: { min: 0, max: 0 },
-      why: "일정 마무리 및 휴식.",
-      tips: ["내일 오행산 일정을 위해 컨디션 조절"],
+      why: "1일차 일정을 마무리하고 호텔로 복귀하여 휴식합니다.",
+      tips: ["내일 오행산 일정을 위해 충분한 휴식"],
       rainAlternative: null,
       businessHours: "상시",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 2000, durationSec: 400, durationWalkingSec: 1500, durationPublicTransportSec: undefined,
+        distanceMeters: 2000, durationSec: 400, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 35000, max: 45000 }, grab7: { min: 45000, max: 60000 } }
       }
     },
     {
       id: "DN-D2-001", day: 2, date: "2026-04-04", slot: "morning",
-      name: "오행산 (엘리베이터 코스) (09:00 - 11:00)",
+      name: "오행산 (엘리베이터 코스) (09:30 - 11:30)",
       type: "activity", lat: 16.0062, lng: 108.2636, mapQuery: "오행산",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0062,108.2636&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Marble+Mountains+Da+Nang",
@@ -275,12 +282,12 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D2-002-1", day: 2, date: "2026-04-04", slot: "afternoon",
-      name: "점심 식사 (12:00 - 13:30)",
+      name: "점심 식사 (12:30 - 14:30)",
       type: "food", lat: 16.0599, lng: 108.2434, mapQuery: "미케비치 맛집",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0599,108.2434&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Restaurant",
-      durationMin: 90, costVND: { min: 300000, max: 800000 },
-      why: "오행산 일정 후 미케비치 근처에서 시원하게 점심 식사.",
+      durationMin: 120, costVND: { min: 300000, max: 800000 },
+      why: "오행산 일정 후 시내 또는 미케비치 근처에서 시원하게 점심 식사.",
       tips: ["부모님을 위해 에어컨이 시원한 식당 선정"],
       rainAlternative: null,
       businessHours: "10:00 - 22:00",
@@ -292,13 +299,13 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D2-002-2", day: 2, date: "2026-04-04", slot: "afternoon",
-      name: "미케비치 카페 휴식 (13:30 - 15:00)",
+      name: "미케비치 카페 휴식 & 짧은 산책 (14:30 - 16:30)",
       type: "rest", lat: 16.0599, lng: 108.2434, mapQuery: "미케비치 카페",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0599,108.2434&travelmode=walking",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Cafe",
-      durationMin: 90, costVND: { min: 100000, max: 300000 },
-      why: "바다 뷰 카페에서 짧은 산책과 휴식을 즐깁니다.",
-      tips: ["해변 산책은 짧게"],
+      durationMin: 120, costVND: { min: 100000, max: 300000 },
+      why: "바다 뷰 카페에서 휴식을 취하고 미케비치 해변을 짧게 산책합니다.",
+      tips: ["해변 산책은 짧게, 카페에서 충분한 휴식"],
       rainAlternative: null,
       businessHours: "08:00 - 23:00",
       closedDays: "연중무휴",
@@ -309,7 +316,7 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D2-003-1", day: 2, date: "2026-04-04", slot: "evening",
-      name: "저녁 식사 (17:00 - 18:30)",
+      name: "저녁 식사 (17:30 - 19:00)",
       type: "food", lat: 16.0600, lng: 108.2300, mapQuery: "다낭 맛집",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0600,108.2300&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+Restaurant",
@@ -326,12 +333,12 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D2-003-2", day: 2, date: "2026-04-04", slot: "evening",
-      name: "마사지 (선택) (18:30 - 19:30)",
+      name: "마사지 (선택) (19:00 - 20:15)",
       type: "rest", lat: 16.0600, lng: 108.2300, mapQuery: "다낭 마사지",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0600,108.2300&travelmode=walking",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+Spa",
-      durationMin: 60, costVND: { min: 500000, max: 800000 },
-      why: "저녁 식사 후 피로도에 따라 마사지(60분)를 받거나 휴식을 취합니다.",
+      durationMin: 75, costVND: { min: 500000, max: 800000 },
+      why: "저녁 식사 후 피로도에 따라 마사지(60~75분)를 받습니다.",
       tips: ["피곤하면 마사지 생략하고 바로 야시장 이동 가능"],
       rainAlternative: null,
       businessHours: "09:00 - 23:00",
@@ -343,7 +350,7 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D2-004", day: 2, date: "2026-04-04", slot: "night",
-      name: "헬리오 야시장 (20:00 - 21:30)",
+      name: "헬리오 야시장 (20:30 - 22:00)",
       type: "activity", lat: 16.0395, lng: 108.2267, mapQuery: "헬리오 야시장",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0395,108.2267&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Helio+Night+Market",
@@ -371,7 +378,7 @@ const MOCK_TRIP_DATA: TripData = {
       placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
       durationMin: 0, costVND: { min: 0, max: 0 },
       why: "일정 마무리 및 휴식.",
-      tips: ["내일 호이안 이동 준비"],
+      tips: ["내일 일정을 위해 충분한 휴식"],
       rainAlternative: null,
       businessHours: "상시",
       closedDays: "연중무휴",
@@ -382,143 +389,184 @@ const MOCK_TRIP_DATA: TripData = {
     },
     {
       id: "DN-D3-000", day: 3, date: "2026-04-05", slot: "morning",
-      name: "체크아웃 & 새 숙소 짐 보관 (10:00)",
-      type: "transport", lat: 16.0522, lng: 108.2440, mapQuery: "D34 An Thượng 34, Mỹ An, Đà Nẵng",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0522,108.2440&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=D34+An+Thượng+34+Mỹ+An+Đà+Nẵng",
-      durationMin: 60, costVND: { min: 0, max: 0 },
-      why: "노보텔 체크아웃 후, 호이안으로 가기 전 새 숙소(D34 An Thượng 34)에 들러 짐을 미리 맡깁니다.",
-      tips: ["그랩을 타고 이동하며, 기사님께 짐 보관 후 호이안까지 대기/이동을 흥정하면 편리합니다."],
+      name: "체크아웃 & 짐 보관 (10:00)",
+      type: "transport", lat: 16.0755, lng: 108.2235, mapQuery: "Novotel Danang Premier Han River",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0755,108.2235&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Novotel+Danang+Premier+Han+River",
+      durationMin: 20, costVND: { min: 0, max: 0 },
+      why: "노보텔 체크아웃 후, 프론트에 짐을 보관하고 시내 일정을 시작합니다.",
+      tips: ["체크아웃 시 미니바 사용 내역 확인"],
       rainAlternative: null,
       businessHours: "상시",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 5000, durationSec: 900, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 60000, max: 80000 }, grab7: { min: 80000, max: 100000 } }
-      }
-    },
-    {
-      id: "DN-D3-001", day: 3, date: "2026-04-05", slot: "morning",
-      name: "호이안 바구니배 (11:30 - 13:00)",
-      type: "activity", lat: 15.8803, lng: 108.3582, mapQuery: "호이안 바구니배",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=15.8803,108.3582&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Hoi+An+Coconut+Boat",
-      durationMin: 90, costVND: { min: 300000, max: 500000 },
-      why: "부모님 만족도 1위 액티비티! 걷지 않고 배에 앉아서 신나는 공연과 경치를 즐길 수 있습니다.",
-      tips: ["햇빛이 강하므로 농라(베트남 모자)나 양산 필수", "뱃사공 매너팁 준비 (약 2~4만동)"],
-      rainAlternative: {
-        name: "호이안 마사지 & 스파",
-        type: "rest", lat: 15.8772, lng: 108.3275, mapQuery: "호이안 스파",
-        placeUrl: "https://www.google.com/maps/search/?api=1&query=Hoi+An+Spa",
-        why: "비가 올 땐 야외 활동 대신 따뜻한 스톤 마사지로 피로 풀기.",
-        tips: ["픽드랍 가능한 마사지샵 예약"],
-        businessHours: "10:00 - 22:00",
-      },
-      businessHours: "08:00 - 17:00",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 25000, durationSec: 2400, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 300000, max: 350000 }, grab7: { min: 350000, max: 450000 } }
-      }
-    },
-    {
-      id: "DN-D3-002", day: 3, date: "2026-04-05", slot: "afternoon",
-      name: "안방 비치 & 점심 (13:30 - 15:30)",
-      type: "food", lat: 15.9146, lng: 108.3238, mapQuery: "안방 비치 라플라주",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=15.9146,108.3238&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=La+Plage+Beach+Bar+Hoi+An",
-      durationMin: 120, costVND: { min: 800000, max: 1500000 },
-      why: "호이안으로 이동 후 바다를 보며 여유로운 점심 식사.",
-      tips: ["가리비 구이, 총알 오징어 추천", "식사 후 썬베드에서 휴식"],
-      rainAlternative: {
-        name: "호이안 올드타운 맛집 (모닝글로리)",
-        type: "food", lat: 15.8772, lng: 108.3275, mapQuery: "호이안 모닝글로리",
-        placeUrl: "https://www.google.com/maps/search/?api=1&query=Morning+Glory+Original",
-        why: "비가 오면 해변 대신 올드타운 내 분위기 좋은 실내 식당으로 이동.",
-        tips: ["화이트 로즈, 프라이드 완탄 추천", "예약 권장"],
-        businessHours: "10:00 - 22:00",
-      },
-      businessHours: "08:00 - 22:00",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 25000, durationSec: 2400, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 350000, max: 400000 }, grab7: { min: 400000, max: 500000 } }
-      }
-    },
-    {
-      id: "DN-D3-003-1", day: 3, date: "2026-04-05", slot: "evening",
-      name: "호이안 올드타운 (16:00 - 18:30)",
-      type: "activity", lat: 15.8801, lng: 108.3380, mapQuery: "호이안 올드타운",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=15.8801,108.3380&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Hoi+An+Ancient+Town",
-      durationMin: 150, costVND: { min: 100000, max: 300000 },
-      why: "유네스코 유산. 씨클로(자전거 인력거)로 올드타운을 편하게 둘러봅니다.",
-      tips: ["씨클로 탑승 시 흥정 필수 (약 20만동/20분)"],
-      rainAlternative: {
-        name: "호이안 메모리즈 쇼 (실내 관람석)",
-        type: "activity", lat: 15.8801, lng: 108.3380, mapQuery: "호이안 메모리즈 쇼",
-        placeUrl: "https://www.google.com/maps/search/?api=1&query=Hoi+An+Memories+Land",
-        why: "비가 와도 관람 가능한 대형 야외 공연 (관람석 지붕 있음).",
-        tips: ["미리 예약 필수", "공연 전 테마파크 구경"],
-        businessHours: "20:00 - 21:00 (공연)",
-        reservationUrl: "https://www.klook.com/ko/activity/11875-hoi-an-memories-show-da-nang/",
-      },
-      businessHours: "07:00 - 22:00",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 5000, durationSec: 600, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 60000, max: 80000 }, grab7: { min: 80000, max: 100000 } }
-      }
-    },
-    {
-      id: "DN-D3-003-2", day: 3, date: "2026-04-05", slot: "evening",
-      name: "호이안 소원배 (18:30 - 20:00)",
-      type: "activity", lat: 15.8770, lng: 108.3270, mapQuery: "호이안 소원배",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=15.8770,108.3270&travelmode=walking",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=Hoi+An+Lantern+Boat",
-      durationMin: 90, costVND: { min: 150000, max: 200000 },
-      why: "해 질 녘 투본 강에서 소원배를 타고 소원초를 띄웁니다.",
-      tips: ["소원배는 배에 앉아서 즐기므로 부모님도 편안함", "정찰제 운영 (배 15만동, 소원초 별도)"],
-      rainAlternative: null,
-      businessHours: "18:00 - 21:30",
-      closedDays: "연중무휴",
-      routeFromPrev: {
-        distanceMeters: 500, durationSec: 420, durationWalkingSec: 420, durationPublicTransportSec: undefined,
+        distanceMeters: 0, durationSec: 0, durationWalkingSec: 0, durationPublicTransportSec: undefined,
         fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
       }
     },
     {
-      id: "DN-D3-004", day: 3, date: "2026-04-05", slot: "night",
-      name: "GO마트(빅씨마트) 쇼핑 (20:30 - 22:00)",
-      type: "activity", lat: 16.0690, lng: 108.2190, mapQuery: "GO! Da Nang",
-      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0690,108.2190&travelmode=driving",
-      placeUrl: "https://www.google.com/maps/search/?api=1&query=GO!+Da+Nang",
-      durationMin: 90, costVND: { min: 500000, max: 2000000 },
-      why: "다낭으로 복귀 후 GO마트(구 빅씨마트)에서 기념품 및 간식 쇼핑.",
-      tips: ["현지인들이 많이 가는 마트로 가격이 저렴함", "커피, 과자, 소스류 구매 추천"],
+      id: "DN-D3-001", day: 3, date: "2026-04-05", slot: "morning",
+      name: "핑크성당 (다낭 대성당) (10:20 - 10:50)",
+      type: "activity", lat: 16.0667, lng: 108.2241, mapQuery: "다낭 대성당",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0667,108.2241&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Da+Nang+Cathedral",
+      durationMin: 30, costVND: { min: 0, max: 0 },
+      why: "프랑스 식민지 시대에 지어진 분홍색 성당으로 다낭의 대표적인 포토존입니다.",
+      tips: ["미사 시간에는 내부 입장이 제한될 수 있습니다.", "성당 앞에서 인증샷 필수"],
       rainAlternative: null,
-      businessHours: "08:00 - 22:00",
+      businessHours: "06:00 - 16:30 (일요일 11:30 - 13:30)",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 30000, durationSec: 2700, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 350000, max: 400000 }, grab7: { min: 400000, max: 500000 } }
+        distanceMeters: 1500, durationSec: 300, durationWalkingSec: 1200, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 30000, max: 40000 }, grab7: { min: 40000, max: 50000 } }
       }
     },
     {
-      id: "DN-D3-005", day: 3, date: "2026-04-05", slot: "night",
-      name: "숙소 복귀 및 짐 정리 (22:30)",
-      type: "rest", lat: 16.0522, lng: 108.2440, mapQuery: "D34 An Thượng 34, Mỹ An, Đà Nẵng",
+      id: "DN-D3-002", day: 3, date: "2026-04-05", slot: "morning",
+      name: "한시장 쇼핑 (10:55 - 11:40)",
+      type: "activity", lat: 16.0688, lng: 108.2238, mapQuery: "한시장",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0688,108.2238&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Han+Market+Da+Nang",
+      durationMin: 45, costVND: { min: 500000, max: 2000000 },
+      why: "다낭 최대 재래시장. 부모님 체력을 고려하여 45분~1시간 내외로 짧게 구경합니다.",
+      tips: ["1층 냄새가 심할 수 있으니 마스크 준비", "흥정 필수", "망고젤리, 라탄백 추천"],
+      rainAlternative: {
+        name: "한시장 (실내)",
+        type: "activity", lat: 16.0688, lng: 108.2238, mapQuery: "한시장",
+        placeUrl: "https://www.google.com/maps/search/?api=1&query=Han+Market+Da+Nang",
+        why: "실내 시장이라 비를 피하며 쇼핑 가능.",
+        tips: ["미끄러움 주의"],
+        businessHours: "06:00 - 19:00",
+      },
+      businessHours: "06:00 - 19:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 500, durationSec: 300, durationWalkingSec: 300, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D3-003", day: 3, date: "2026-04-05", slot: "morning",
+      name: "콩카페 & 점심 식사 (11:45 - 12:40)",
+      type: "food", lat: 16.0678, lng: 108.2245, mapQuery: "콩카페 1호점",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0678,108.2245&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=Cong+Caphe+Da+Nang",
+      durationMin: 55, costVND: { min: 200000, max: 500000 },
+      why: "시간 절약을 위해 콩카페에서 코코넛 커피와 함께 근처 반미 가게 등에서 간단히 점심을 해결합니다.",
+      tips: ["콩카페에서 음료 주문 후 근처 식당 이용", "부모님 휴식 시간"],
+      rainAlternative: null,
+      businessHours: "07:00 - 23:30",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 150, durationSec: 120, durationWalkingSec: 120, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D3-004", day: 3, date: "2026-04-05", slot: "afternoon",
+      name: "짐 찾기 및 새 숙소 이동 (12:40 - 14:00)",
+      type: "transport", lat: 16.0522, lng: 108.2440, mapQuery: "D34 An Thượng 34, Mỹ An, Đà Nẵng",
       dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0522,108.2440&travelmode=driving",
       placeUrl: "https://www.google.com/maps/search/?api=1&query=D34+An+Thượng+34+Mỹ+An+Đà+Nẵng",
-      durationMin: 0, costVND: { min: 0, max: 0 },
-      why: "숙소로 복귀하여 쇼핑 물품을 정리하고 휴식합니다.",
-      tips: ["내일 체크아웃 준비"],
+      durationMin: 80, costVND: { min: 60000, max: 100000 },
+      why: "노보텔로 돌아가 짐을 찾은 후, 미케비치 근처의 새 숙소(Serenity Villa)로 이동합니다.",
+      tips: ["그랩 호출 시 짐 싣기 편한 7인승 추천"],
       rainAlternative: null,
       businessHours: "상시",
       closedDays: "연중무휴",
       routeFromPrev: {
-        distanceMeters: 5000, durationSec: 900, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
-        fareEstimateVND: { grab4: { min: 70000, max: 90000 }, grab7: { min: 90000, max: 110000 } }
+        distanceMeters: 6000, durationSec: 1200, durationWalkingSec: undefined, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 60000, max: 80000 }, grab7: { min: 80000, max: 100000 } }
+      }
+    },
+    {
+      id: "DN-D3-005", day: 3, date: "2026-04-05", slot: "afternoon",
+      name: "새 숙소 체크인 및 휴식 (14:00 - 15:30)",
+      type: "rest", lat: 16.0522, lng: 108.2440, mapQuery: "D34 An Thượng 34, Mỹ An, Đà Nẵng",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0522,108.2440&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=D34+An+Thượng+34+Mỹ+An+Đà+Nẵng",
+      durationMin: 90, costVND: { min: 0, max: 0 },
+      why: "새 숙소에 체크인하고 짐을 푼 뒤, 샤워 및 휴식을 취합니다.",
+      tips: ["오후 일정을 위해 충분한 휴식"],
+      rainAlternative: null,
+      businessHours: "체크인 14:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 0, durationSec: 0, durationWalkingSec: 0, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D3-006", day: 3, date: "2026-04-05", slot: "afternoon",
+      name: "미케비치 산책 (15:45 - 16:30)",
+      type: "activity", lat: 16.0599, lng: 108.2434, mapQuery: "미케비치",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0599,108.2434&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach",
+      durationMin: 45, costVND: { min: 0, max: 0 },
+      why: "숙소 근처 미케비치를 가볍게 산책합니다. (날씨와 체력에 따라 유동적으로 진행)",
+      tips: ["햇빛이 강할 수 있으니 모자/선글라스 준비"],
+      rainAlternative: {
+        name: "숙소 내 휴식",
+        type: "rest", lat: 16.0522, lng: 108.2440, mapQuery: "D34 An Thượng 34, Mỹ An, Đà Nẵng",
+        why: "비가 오거나 너무 더우면 숙소에서 계속 휴식.",
+        tips: ["무리한 야외 활동 자제"],
+      },
+      businessHours: "상시",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 1000, durationSec: 900, durationWalkingSec: 900, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D3-007", day: 3, date: "2026-04-05", slot: "afternoon",
+      name: "미케비치 근처 카페 (16:30 - 17:30)",
+      type: "rest", lat: 16.0599, lng: 108.2434, mapQuery: "미케비치 카페",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0599,108.2434&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Cafe",
+      durationMin: 60, costVND: { min: 100000, max: 200000 },
+      why: "산책 후 에어컨이 있는 시원한 카페에서 휴식을 취합니다.",
+      tips: ["부모님이 편하게 앉을 수 있는 좌석이 있는 곳 선택"],
+      rainAlternative: null,
+      businessHours: "상시",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 200, durationSec: 180, durationWalkingSec: 180, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D3-008", day: 3, date: "2026-04-05", slot: "evening",
+      name: "저녁 식사 (18:00 - 19:30)",
+      type: "food", lat: 16.0522, lng: 108.2440, mapQuery: "미케비치 맛집",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0522,108.2440&travelmode=walking",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Restaurant",
+      durationMin: 90, costVND: { min: 500000, max: 1200000 },
+      why: "이동을 최소화하기 위해 숙소 근처 맛집에서 저녁 식사를 합니다.",
+      tips: ["해산물 식당 등 부모님 취향에 맞는 곳 선택"],
+      rainAlternative: null,
+      businessHours: "10:00 - 22:00",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 1000, durationSec: 900, durationWalkingSec: 900, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
+      }
+    },
+    {
+      id: "DN-D3-009", day: 3, date: "2026-04-05", slot: "night",
+      name: "숙소 복귀 및 짐 정리 (19:45)",
+      type: "rest", lat: 16.0522, lng: 108.2440, mapQuery: "D34 An Thượng 34, Mỹ An, Đà Nẵng",
+      dirMapUrl: "https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=16.0522,108.2440&travelmode=driving",
+      placeUrl: "https://www.google.com/maps/search/?api=1&query=D34+An+Thượng+34+Mỹ+An+Đà+Nẵng",
+      durationMin: 0, costVND: { min: 0, max: 0 },
+      why: "저녁 식사 후 숙소로 복귀하여 휴식을 취하고 내일 출국을 위한 짐을 미리 정리합니다.",
+      tips: ["내일 출국을 위한 짐 정리"],
+      rainAlternative: null,
+      businessHours: "상시",
+      closedDays: "연중무휴",
+      routeFromPrev: {
+        distanceMeters: 1000, durationSec: 900, durationWalkingSec: 900, durationPublicTransportSec: undefined,
+        fareEstimateVND: { grab4: { min: 0, max: 0 }, grab7: { min: 0, max: 0 } }
       }
     },
     {
@@ -641,46 +689,57 @@ const fetchItinerary = (day: number): Promise<ItineraryItem[]> => {
   });
 };
 
-const fetchWeather = (lat: number, lng: number, date: string): Promise<{ temp: number | null, condition: string }> => {
-  return new Promise((resolve) => {
-    const targetDate = new Date(date);
-    const now = new Date();
-    const diffTime = targetDate.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    setTimeout(() => {
-      if (diffDays > 10) {
-        resolve({ temp: null, condition: "unavailable" });
-      } else {
-        resolve({ temp: 28, condition: "cloudy" });
+const fetchWeather = async (lat: number, lng: number, date: string): Promise<{ temp: number | null, condition: string }> => {
+  try {
+    const apiKey = import.meta.env.VITE_ACCUWEATHER_API_KEY;
+    if (!apiKey) {
+      console.error("AccuWeather API key is missing");
+      return { temp: null, condition: "unavailable" };
+    }
+
+    // 1. 위도/경도로 Location Key 가져오기
+    const locationRes = await fetch(`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lng}`);
+    if (!locationRes.ok) throw new Error('Location fetch failed');
+    const locationData = await locationRes.json();
+    const locationKey = locationData.Key;
+
+    // 2. Location Key로 5일치 일기예보 가져오기 (metric=true로 섭씨 온도 요청)
+    const forecastRes = await fetch(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=true`);
+    if (!forecastRes.ok) throw new Error('Forecast fetch failed');
+    const forecastData = await forecastRes.json();
+
+    // 3. 요청한 날짜에 해당하는 예보 찾기 (예: "2026-04-03T07:00:00+07:00")
+    const dailyForecast = forecastData.DailyForecasts.find((d: any) => d.Date.startsWith(date));
+
+    if (dailyForecast) {
+      const temp = Math.round(dailyForecast.Temperature.Maximum.Value);
+      const iconCode = dailyForecast.Day.Icon;
+      
+      // AccuWeather 아이콘 코드를 앱의 날씨 상태로 매핑
+      let condition = 'cloudy';
+      if (iconCode >= 1 && iconCode <= 5) {
+        condition = 'sunny'; // 맑음 ~ 대체로 맑음
+      } else if (iconCode >= 12 && iconCode <= 18) {
+        condition = 'rain'; // 비, 소나기, 뇌우
+      } else if (iconCode >= 39 && iconCode <= 42) {
+        condition = 'rain'; // 밤 비
+      } else if (iconCode >= 33 && iconCode <= 34) {
+        condition = 'sunny'; // 맑은 밤
       }
-    }, 300);
-  });
+
+      return { temp, condition };
+    }
+    
+    return { temp: null, condition: "unavailable" };
+  } catch (error) {
+    console.error("Failed to fetch AccuWeather data:", error);
+    return { temp: null, condition: "unavailable" };
+  }
 };
+
+import { globalExchangeRate, setGlobalExchangeRate, formatVND, formatKRW, formatVNDRange } from './utils';
 
 // --- 도우미 함수 ---
-
-const EXCHANGE_RATE = 0.055; // 1 VND = 0.055 KRW (approx)
-
-const formatVND = (amount: number) => {
-  return `${(amount/1000).toLocaleString()}k`;
-};
-
-const formatKRW = (amount: number) => {
-  return `${Math.round(amount * EXCHANGE_RATE).toLocaleString()}원`;
-};
-
-const formatVNDRange = (min: number, max: number) => {
-  if (min === 0 && max === 0) return "포함 / 무료";
-  return (
-    <span>
-      {formatVND(min)} - {formatVND(max)}
-      <span className="text-gray-400 text-[10px] ml-1">
-        ({formatKRW(min)}~{formatKRW(max)})
-      </span>
-    </span>
-  );
-};
 
 const getSlotLabel = (slot: Slot) => {
   switch (slot) {
@@ -820,8 +879,17 @@ const WeatherBar = ({ day, date, lat, lng }: { day: number, date: string, lat: n
     });
   }, [lat, lng, date]);
 
+  const handleWeatherClick = () => {
+    // 다낭의 AccuWeather 페이지로 이동 (한국어)
+    window.open('https://www.accuweather.com/ko/vn/da-nang/352954/weather-forecast/352954', '_blank');
+  };
+
   return (
-    <div className="bg-blue-600 text-white p-4 shadow-md transition-all">
+    <div 
+      className="bg-blue-600 text-white p-4 shadow-md transition-all cursor-pointer hover:bg-blue-700"
+      onClick={handleWeatherClick}
+      title="자세한 날씨 정보 보기"
+    >
       <div className="flex justify-between items-center max-w-md mx-auto">
         <div>
           <h2 className="text-lg font-bold">다낭 여행 - {day}일차</h2>
@@ -837,7 +905,9 @@ const WeatherBar = ({ day, date, lat, lng }: { day: number, date: string, lat: n
              </div>
           ) : (
             <>
-              <Cloud className="w-6 h-6" />
+              {weather?.condition === 'sunny' && <Sun className="w-6 h-6 text-yellow-300" />}
+              {weather?.condition === 'cloudy' && <Cloud className="w-6 h-6 text-gray-200" />}
+              {weather?.condition === 'rain' && <CloudRain className="w-6 h-6 text-blue-300" />}
               <span className="text-xl font-bold">{weather?.temp}°C</span>
             </>
           )}
@@ -892,23 +962,35 @@ const DayTabs = ({ days, selectedDay, onSelect }: { days: DayHeader[], selectedD
   );
 };
 
-const GrabButton = ({ lat, lng, name }: { lat: number, lng: number, name: string }) => {
+const GrabButton = ({ lat, lng, name, pickupLat, pickupLng }: { lat: number, lng: number, name: string, pickupLat?: number, pickupLng?: number }) => {
   const handleGrabClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     
     // grab:// 딥링크 스키마를 사용하여 앱을 직접 실행합니다.
-    // r.grab.com 링크에서 발생하는 'invalid ID' 에러를 방지하고 더 확실하게 앱을 엽니다.
-    const grabAppUrl = `grab://open?screenType=BOOKING&dropOffLatitude=${lat}&dropOffLongitude=${lng}&dropOffName=${encodeURIComponent(name)}`;
+    let grabAppUrl = `grab://open?screenType=BOOKING&dropOffLatitude=${lat}&dropOffLongitude=${lng}&dropOffName=${encodeURIComponent(name)}`;
     
+    if (pickupLat && pickupLng) {
+      grabAppUrl += `&pickUpLatitude=${pickupLat}&pickUpLongitude=${pickupLng}`;
+    }
+    
+    // 플랫폼별 스토어 URL 백업
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    let storeUrl = 'https://www.grab.com/download/'; // 기본 웹사이트
+    
+    if (/android/i.test(userAgent)) {
+      storeUrl = 'https://play.google.com/store/apps/details?id=com.grabtaxi.passenger';
+    } else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+      storeUrl = 'https://apps.apple.com/app/id648158248';
+    }
+
     // 앱 실행 시도
     window.location.href = grabAppUrl;
 
-    // 앱이 설치되어 있지 않은 경우를 위한 웹 링크 백업 (필요시)
+    // 앱이 설치되어 있지 않은 경우를 위한 웹 링크 백업
     setTimeout(() => {
       if (!document.hidden) {
         // 앱 실행에 실패한 경우 (브라우저가 여전히 활성 상태인 경우)
-        // r.grab.com 대신 공식 다운로드/랜딩 페이지로 안내하거나 알림을 띄울 수 있습니다.
-        console.log("Grab app might not be installed.");
+        window.open(storeUrl, '_blank');
       }
     }, 2500);
   };
@@ -924,7 +1006,7 @@ const GrabButton = ({ lat, lng, name }: { lat: number, lng: number, name: string
   );
 };
 
-const ItineraryCard: React.FC<{ item: ItineraryItem, showRouteInfo?: boolean }> = ({ item, showRouteInfo = true }) => {
+const ItineraryCard: React.FC<{ item: ItineraryItem, prevItem?: ItineraryItem, showRouteInfo?: boolean }> = ({ item, prevItem, showRouteInfo = true }) => {
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const getIcon = (type: ItemType) => {
@@ -1013,7 +1095,13 @@ const ItineraryCard: React.FC<{ item: ItineraryItem, showRouteInfo?: boolean }> 
             </div>
           </div>
           
-          <GrabButton lat={item.lat} lng={item.lng} name={item.name} />
+          <GrabButton 
+            lat={item.lat} 
+            lng={item.lng} 
+            name={item.name} 
+            pickupLat={prevItem?.lat} 
+            pickupLng={prevItem?.lng} 
+          />
         </div>
       )}
 
@@ -1205,13 +1293,64 @@ const ItineraryCard: React.FC<{ item: ItineraryItem, showRouteInfo?: boolean }> 
 const CurrencyConverter = () => {
   const [vnd, setVnd] = useState<string>("");
   const [krw, setKrw] = useState<string>("0");
+  const [exchangeRate, setExchangeRate] = useState<number>(globalExchangeRate);
+  const [isLoadingRate, setIsLoadingRate] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetch('https://open.er-api.com/v6/latest/VND')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.rates && data.rates.KRW) {
+          const rate = data.rates.KRW;
+          setExchangeRate(rate);
+          setGlobalExchangeRate(rate); // Update global rate for other components
+        }
+      })
+      .catch(err => console.error('Failed to fetch exchange rate', err))
+      .finally(() => setIsLoadingRate(false));
+  }, []);
 
   const handleVndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/,/g, "");
-    if (!isNaN(Number(value))) {
-      setVnd(Number(value).toLocaleString());
-      setKrw(Math.round(Number(value) * EXCHANGE_RATE).toLocaleString());
+    if (value === "") {
+      setVnd("");
+      setKrw("0");
+      return;
     }
+    if (!isNaN(Number(value))) {
+      setVnd(Number(value).toLocaleString('en-US'));
+      setKrw(Math.round(Number(value) * exchangeRate).toLocaleString('en-US'));
+    }
+  };
+
+  // Recalculate KRW when exchange rate changes
+  useEffect(() => {
+    if (vnd) {
+      const value = Number(vnd.replace(/,/g, ""));
+      if (!isNaN(value)) {
+        setKrw(Math.round(value * exchangeRate).toLocaleString('en-US'));
+      }
+    }
+  }, [exchangeRate, vnd]);
+
+  const formatKoreanCurrency = (valueStr: string) => {
+    const num = Number(valueStr.replace(/,/g, ""));
+    if (isNaN(num) || num === 0) return "";
+    
+    const units = ["", "만", "억", "조"];
+    let result = "";
+    let temp = num;
+    let unitIndex = 0;
+    
+    while (temp > 0) {
+      const chunk = temp % 10000;
+      if (chunk > 0) {
+        result = `${chunk.toLocaleString('en-US')}${units[unitIndex]} ${result}`;
+      }
+      temp = Math.floor(temp / 10000);
+      unitIndex++;
+    }
+    return result.trim();
   };
 
   return (
@@ -1220,30 +1359,48 @@ const CurrencyConverter = () => {
         <span className="bg-green-100 text-green-700 p-1 rounded">₫</span>
         간편 환율 계산기
       </h3>
-      <div className="flex items-center gap-2">
-        <div className="flex-1 flex items-center border border-gray-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-          <input
-            type="text"
-            value={vnd}
-            onChange={handleVndChange}
-            placeholder="0"
-            className="w-full pl-3 py-2 text-right focus:outline-none text-sm min-w-0"
-          />
-          <div className="bg-gray-50 px-3 py-2 text-xs text-gray-500 border-l border-gray-200 whitespace-nowrap">
-            VND
+      <div className="flex items-start gap-2">
+        <div className="flex-1">
+          <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+            <input
+              type="text"
+              value={vnd}
+              onChange={handleVndChange}
+              placeholder="1,000,000"
+              className="w-full pl-3 py-2 text-right focus:outline-none text-sm min-w-0"
+            />
+            <div className="bg-gray-50 px-3 py-2 text-xs text-gray-500 border-l border-gray-200 whitespace-nowrap">
+              VND
+            </div>
+          </div>
+          <div className="text-right text-[10px] text-blue-500 mt-1 h-3 font-medium">
+            {vnd ? `${formatKoreanCurrency(vnd)} 동` : ''}
           </div>
         </div>
-        <span className="text-gray-400">=</span>
-        <div className="flex-1 flex items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
-          <div className="w-full pl-3 py-2 text-right text-gray-700 text-sm min-w-0 truncate">
-            {krw}
+        <div className="pt-2">
+          <span className="text-gray-400">=</span>
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+            <div className="w-full pl-3 py-2 text-right text-gray-700 text-sm min-w-0 truncate">
+              {krw}
+            </div>
+            <div className="bg-gray-100 px-3 py-2 text-xs text-gray-500 border-l border-gray-200 whitespace-nowrap">
+              KRW
+            </div>
           </div>
-          <div className="bg-gray-100 px-3 py-2 text-xs text-gray-500 border-l border-gray-200 whitespace-nowrap">
-            KRW
+          <div className="text-right text-[10px] text-green-500 mt-1 h-3 font-medium">
+            {krw !== "0" && krw !== "" ? `약 ${formatKoreanCurrency(krw)} 원` : ''}
           </div>
         </div>
       </div>
-      <p className="text-[10px] text-gray-400 mt-2 text-right">* 10,000동 ≈ 550원 기준</p>
+      <p className="text-[10px] text-gray-400 mt-1 text-right">
+        {isLoadingRate ? (
+          <span className="animate-pulse">실시간 환율 불러오는 중...</span>
+        ) : (
+          `* 실시간 환율 기준 (10,000동 ≈ ${Math.round(10000 * exchangeRate).toLocaleString()}원)`
+        )}
+      </p>
     </div>
   );
 };
@@ -1367,7 +1524,12 @@ const App = () => {
             ) : (
               <div className="animate-fade-in">
                 {itinerary.length > 0 ? itinerary.map((item, index) => (
-                  <ItineraryCard key={item.id} item={item} showRouteInfo={index > 0} />
+                  <ItineraryCard 
+                    key={item.id} 
+                    item={item} 
+                    prevItem={index > 0 ? itinerary[index - 1] : undefined}
+                    showRouteInfo={index > 0} 
+                  />
                 )) : (
                   <div className="text-center py-20 text-gray-400 text-sm italic">해당 일자의 세부 일정이 아직 업데이트되지 않았습니다.</div>
                 )}
