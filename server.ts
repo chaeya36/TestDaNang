@@ -115,13 +115,11 @@ function broadcastMemo(memo: string, excludeWs?: WebSocket) {
 if (process.env.NODE_ENV !== 'production') {
   const { createServer: createViteServer } = await import('vite');
   const vite = await createViteServer({
-    server: { 
-        middlewareMode: true,
-        hmr: {
-            server: server
-        }
-    },
-    appType: 'spa'
+    server: { middlewareMode: true },
+    appType: 'spa',
+    hmr: {
+        server: server
+    }
   });
   app.use(vite.middlewares);
 } else {
