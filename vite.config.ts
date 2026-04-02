@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    base: '/TestDaNang/',   // ← 여기
+    base: '/DaNang-Trip/',   // GitHub 저장소 이름과 일치하도록 수정
 
     server: {
       port: 3000,
